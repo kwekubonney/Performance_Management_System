@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+
+	<div class="container-fluid">
+		<div class="row" style="margin-bottom: 20px;">
+		<!-- <div>
+ 			<a th:href="@{/evaluation(id=(${employee.employee_id}))}" style="margin-left:25px; margin-bottom:10px;" title="New Evaluation">		
+ 				<i class="fa fa-2x fa-book fa-fw" ></i>
+ 			</a>
+ 		</div> -->
+			<div class="col-sm-10 col-sm-offset-1 "
+				style="max-height: 600px; overflow: auto; box-shadow: -1px 2px 2px 3px gray;">
+				<h3 style="background-color: #000033; padding: 10px; color: white;">
+					<span class="text-center">EVALUATION</span>
+				</h3>
+				<table class="table table-striped w-100">
+					<tr>
+						<th>Year</th>
+						<th>Peformance Plan Period</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+					<tr data-th-each="evaluation : ${staffPlansAppra}">
+						<td th:text="${evaluation.submitted_time}"></td>
+						<td th:text="${evaluation.performace_Plan_Period}"></td>
+						<td th:text="${evaluation.status}"></td>
+						<!-- <td><a class="btn btn-primary"  th:href="@{/evaluation(period=${evaluation.evaluation_Period})}"><span th:if="${evaluation.status}  == 'Submitted'" style="color:red;">Open</span><span th:if="${evaluation.status}  != 'Submitted'" style="color:#000033;">Close</span> </a></td> -->
+						<td><a class="btn btn-primary"
+							th:href="@{/viewEvaluation(id=${evaluation.plan_id})}">View</a></td>
+					</tr>
+				</table>
+			</div>
+			<!-- <div class="col-sm-1 ">
+
+				<center>
+					<a th:href="@{/evaluation}" class="btn btn-sm btn-primary">Open
+						Current Performance Appraisal</a>
+				</center>
+			</div> -->
+		</div>
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link
+	th:href="@{https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css}"
+	rel="stylesheet" crossorigin="anonymous" />
+
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+
+	<div class="col-md-12">
+		<div class="container" align="center">
+			<div class="col-md-4"></div>
+			<div class="col-md-4" style="border: 2px solid black;">
+				<div class="log-form" style="margin-bottom: 20px;">
+					<h2>Unlock Document</h2>
+					<br />
+					<form action="home" th:action="@{/staff-login}" method="post"
+						class="form-validate">
+						<input type="text" title="username" name="username"
+							placeholder="username" /> <input type="password"
+							title="username" name="password" placeholder="password" />
+						<button type="submit" class="btn"
+							style="background-color: #000033; color: #fff">User</button>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<H1 style="color: red; margin-left: 30px;">
+					User:<span
+						th:text="${employee.first_name} + ' '+${employee.last_name} "></span>
+				</H1>
+			</div>
+		</div>
+
+		<div class="text-center" style="margin-bottom: 50px;">
+			<h1>My Staff Appraisals</h1>
+			<hr />
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-bordered" id="dataTableView" width="100%"
+					cellspacing="0">
+					<thead>
+						<tr style="background-color: #000033; color: #ffffff;">
+							<!-- 											<th>FISCAL_NO</th>
+											<th>TAXPAYER</th> -->
+
+							<th>Staff ID</th>
+							<th>Employee Name</th>
+							<th>Position</th>
+							<th>Performance Period</th>
+							<th>Location</th>
+							<th>Operation</th>
+							<th>Operation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-th-each="staff : ${staffList}">
+							<td th:text="${staff.employee_id}">008</td>
+							<td
+								th:text="${staff.first_name} + ' ' +${staff.middle_name} +' '+${staff.last_name}"></td>
+							<td th:text="${staff.position}">Compliance</td>
+							<td>January 2022 - June 2022</td>
+							<td th:text="${staff.duty_location}">Head Office</td>
+<!-- 							<td><a th:href="@{/appInfo(id=${staff.employee_id})}"><span class="glyphicon glyphicon-trash" aria-hidden="true"
+										style="color: red;"></span></a></td> -->
+							<td><a th:href="@{/viewplan(employee_id=${staff.employee_id})}">View Staff Planning</a></td> 
+							<td><a th:href="@{/viewappraisal(employee_id=${staff.employee_id})}">View Staff Appraisal</a></td>
+							<!-- <td><a style="color:red;" th:href="@{/}" class="fa fa-arrow-left" aria-hidden="true" id="clickDetailsReturn" >&nbsp;Back</a></td> -->
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+	<div th:replace="common/header :: footer"></div>
+
+
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+
+	<script
+		th:src="@{https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js}"
+		crossorigin="anonymous"></script>
+	<script
+		th:src="@{https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js}"
+		crossorigin="anonymous"></script>
+	<script th:src="@{/assets/demo/datatables-demo.js}"></script>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							// Setup - add a text input to each footer cell
+							$('#dataTableView thead tr').clone(true).appendTo(
+									'#dataTableView thead');
+							$('#dataTableView thead tr:eq(1) th')
+									.each(
+											function(i) {
+												var title = $(this).text();
+												$(this)
+														.html(
+																'<input type="text" placeholder="Search '+title+'" />');
+
+												$('input', this)
+														.on(
+																'keyup change',
+																function() {
+																	if (table
+																			.column(
+																					i)
+																			.search() !== this.value) {
+																		table
+																				.column(
+																						i)
+																				.search(
+																						this.value)
+																				.draw();
+																	}
+																});
+											});
+
+							var table = $('#dataTableView').DataTable({
+								orderCellsTop : true,
+								fixedHeader : true
+							});
+
+						});
+	</script>
+
+
+</body>
+
+</html>

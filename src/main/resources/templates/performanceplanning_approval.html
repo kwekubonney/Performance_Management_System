@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+
+	<div class="col-md-12" style="margin-bottom: 5%">
+		<div class="content">
+			<div class="container-fluid">
+
+<!-- 				<div class="container" align="center">
+					<div class="col-md-4"></div>
+					<div class="col-md-4" style="border: 2px solid black;">
+						<div class="log-form" style="margin-bottom: 20px;">
+							<h2>Unlock Performance Document</h2>
+							<br />
+							<form action="home" th:action="@{/login_Planning}" method="post"
+								class="form-validate">
+								<input type="text" title="username" name="username"
+									placeholder="username" /> <input type="password"
+									title="username" name="password" placeholder="password" />
+								<button type="submit" class="btn"
+									style="background-color: #000033; color: #fff">User</button>
+							</form>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<H1 style="color: red; margin-left: 30px;">
+							User:<span
+								th:text="${employee.first_name} + ' '+${employee.last_name} "></span>
+						</H1>
+					</div>
+				</div> -->
+				<div class="container" align="center">
+					<h2>
+						<strong>APPROVE STAFF PERFORMANCE PLAN</strong>
+					</h2>
+				</div>
+				<div class="table-responsive">
+					<table id="applListTable"
+						class="table table-bordered table-hover table-striped">
+						<tbody>
+							<tr align="center"
+								style="background-color: #000033; color: white;">
+								<td>
+									<h4>
+										<strong>STAFF INFORMATION</strong>
+									</h4>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table class="table table-bordered">
+										<tbody>
+											<tr>
+												<td colspan="2">
+													<p>LAST NAME</p><strong> <span th:text="${employee.last_name}">N/A</span></strong>
+												</td>
+												<td colspan="2">
+													<p>FIRST NAME</p><strong> <span th:text="${employee.first_name}">N/A</span></strong>
+												</td>
+												<td colspan="1">
+													<p>MIDDLE NAME</p><strong> <span th:text="${employee.middle_name}">N/A</span></strong>
+												</td>
+												<td colspan="1">
+													<p>JOB GRADE</p><strong> <span th:text="${employee.job_grade}">N/A</span></strong>
+												</td>
+												<td colspan="2">
+													<p>DUTY LOCATION</p><strong> <span
+													th:text="${employee.duty_location}">N/A</span></strong>
+												</td>
+												<td colspan="1">
+													<p>DATE</p><strong> <span id="current_date">Date Value</span></strong>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<p>POSITION</p><strong> <span th:text="${employee.position}">N/A</span></strong>
+												</td>
+												<td colspan="3">
+													<p>DEPARTMENT/DIVISION/SECTION</p><strong> <span
+													th:text="${employee.Department}">N/A</span></strong>
+												</td>
+												<td colspan="2">
+													<p>PERFORMANCE PERIOD</p><strong> <span>January 2022 - June 2022</span></strong>
+												</td>
+												<td colspan="2">
+													<p>STAFF PHONE #</p><strong> <span th:text="${employee.phone}">N/A</span></strong>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="3">
+													<p>NAME OF SUPERVISOR</p><strong> <span
+													th:text="${employee.supervisor_name}">N/A</span></strong>
+												</td>
+												<td colspan="3">
+													<p>SUPERVISOR TITLE</p><strong> <span
+													th:text="${employee.supervisor_title}">N/A</span></strong>
+												</td>
+												<td colspan="3">
+													<p>SUPERVISOR PHONE #</p><strong> <span
+													th:text="${employee.supervisor_phone}">N/A</span></strong>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr class="text-center" th:if="${sectionOneError}"
+								style="color: #a94442; background-color: #f2dede; border-color: #ebccd1;">
+								<td>
+									<h4>
+										<JavaBlink> <strong>ERROR : Total weight
+											for SECTION ONE should be exactly sixty(60).</strong></JavaBlink>
+									</h4>
+								</td>
+							</tr>
+							<tr class="text-center" th:if="${sectionTwoError}"
+								style="color: #a94442; background-color: #f2dede; border-color: #ebccd1;">
+								<td>
+									<h4>
+										<JavaBlink> <strong>ERROR : Total weight
+											for SECTION TWO should be exactly forty(40).</strong></JavaBlink>
+									</h4>
+								</td>
+							</tr>
+							<tr class="text-center" th:if="${sectionThreeError}"
+								style="color: #a94442; background-color: #f2dede; border-color: #ebccd1;">
+								<td>
+									<h4>
+										<JavaBlink> <strong>ERROR : Total weight
+											for SECTION THREE should be exactly fifty(50).</strong></JavaBlink>
+									</h4>
+								</td>
+							</tr>
+							<tr class="text-center" th:if="${postPerformancePlanSaved}"
+								style="color: #a94442; background-color: #C2E5D3; border-color: #ebccd1;">
+								<td>
+									<h4>
+										<JavaBlink> <strong>SUCCESS : You have
+											successfully submitted this Performance Plan </strong></JavaBlink>
+									</h4>
+								</td>
+							</tr>
+
+							<tr style="background-color: #000033; color: white;">
+								<td>
+									<h4>
+										<strong>SECTION ONE - PERFORMANCE PLANNING: Use this
+											section to capture the staff's direct output required for
+											successful performance for the year.</strong>
+									</h4>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table class="table table-bordered">
+										<thead>
+											<tr style="background-color: aliceblue; color: black;">
+												<th colspan="5">
+													<h4>Workplan / Performance Objectives</h4>
+													<p>(i.e. specific end result by which each KRA will be
+														measured.)</p>
+												</th>
+												<th colspan="5">
+													<h4>Performance Indicators/Measure</h4>
+													<p>(i.e. How/what will the achievement look like when
+														completed.)</p>
+												</th>
+												<th colspan="4">
+													<h4>Target</h4>
+													<p>(i.e. expressed as %. Total target for 4 quarters
+														should not exceed 100%.)</p>
+													<p>
+													<table class="table table-bordered">
+														<thead>
+															<tr style="background-color: aliceblue; color: black;">
+																<th>QUARTER 1</th>
+																<th>QUARTER 2</th>
+																<th>QUARTER 3</th>
+																<th>QUATER 4</th>
+															</tr>
+														</thead>
+													</table>
+													</p>
+												</th>
+												<th colspan="2">
+													<h4>Weight Assigned</h4>
+													<p>(i.e. significance applied to KRA)</p>
+												</th>
+											</tr>
+
+										</thead>
+										<tbody>
+											<tr data-th-each="plan : ${performancePlanList}">
+												<td colspan="5" th:text="${plan.performance_objective}"></td>
+												<td colspan="5" th:text="${plan.performance_indicators}"></td>
+												<td colspan="1" th:text="${plan.quarter1} + '%'"></td>
+												<td colspan="1" th:text="${plan.quarter2} + '%'">25%</td>
+												<td colspan="1" th:text="${plan.quarter3} + '%'">25%</td>
+												<td colspan="1" th:text="${plan.quarter4} + '%'">25%</td>
+												<td colspan="2" th:text="${plan.weight_assigned} + .00"
+													align="right"></td>
+											</tr>
+										</tbody>
+									</table>
+									<table class="table table-bordered">
+										<tbody>
+											<tr style="background-color: aliceblue; color: black;">
+												<td colspan="2" align="center"></td>
+												<td colspan="14" align="right">
+													<h5>
+														<strong>Weight must Total (60) </strong>
+													</h5>
+												</td>
+												<td colspan="2" align="right"><strong><span
+														th:text="${totalValue}">60.00</span></strong></td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							
+
+							<tr style="background-color: #000033; color: white;">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th style="width: 80%;">
+												<h4>
+													<strong>SECTION TWO - COMPETENCY FACTORS: These
+														are the core competencies (KSAs - knowledge, skills and
+														attituded) that will be assessed during the Mid Year
+														Review and the Annual Performance Review.</strong>
+												</h4>
+											</th>
+											<th style="width: 20%;">
+												<h4>
+													<strong>Weight Assigned</strong>
+												</h4>
+												<p>(i.e. significance applied to KSA)</p>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</tr>
+							<form class="form-horizontal"
+								th:action="@{/submitPerfomancePlan}" method="post"
+								enctype="multipart/form-data">
+	                         <input th:value="${employee.employee_id}" name="employeeIdTransfered" hidden="hidden"></input>
+
+								<tr>
+									<table class="table table-bordered">
+										<tbody>
+											<tr align="center">
+												<td>
+													<h3>
+														<strong>Core Competences</strong>
+													</h3>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</tr>
+								<tr>
+									<table class="table table-bordered">
+										<tbody>
+											<tr>
+												<td style="width: 80%;"><span>Customs
+														Legislations &amp; Procedures </span></td>
+												<td style="width: 10%;" align="right"><span>2.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.customs}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input1" placeholder="0.00"
+														name="customs"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Tax Legislation
+														&amp; Procedures </span></td>
+												<td style="width: 10%;" align="right"><span>2.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.tax}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input2" placeholder="0.00"
+														name="tax"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>LRA Core Function
+														Knowledge </span></td>
+												<td style="width: 10%;" align="right"><span>1.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.core_function_knowledge}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input3" placeholder="0.00"
+														name="core_function_knowledge"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Information System
+														Security</span></td>
+												<td style="width: 10%;" align="right"><span>3.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.information_system_security}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input4" placeholder="0.00"
+														name="information_system_security"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Information
+														Technology </span></td>
+												<td style="width: 10%;" align="right"><span>5.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.information_technology}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input5" placeholder="0.00"
+														name="information_technology"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Policy Development
+														&amp; Implementation </span></td>
+												<td style="width: 10%;" align="right"><span>4.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.policy_development}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input6" placeholder="0.00"
+														name="policy_development"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Strategic Minded </span></td>
+												<td style="width: 10%;" align="right"><span>1.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.strategic_minded}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input7" placeholder="0.00"
+														name="strategic_minded"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>System
+														Administration </span></td>
+												<td style="width: 10%;" align="right"><span>3.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.system_admin}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input8" placeholder="0.00"
+														name="system_admin"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>ASYCUDA</span></td>
+												<td style="width: 10%;" align="right"><span>1.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.asycuda}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input9" placeholder="0.00"
+														name="asycuda"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>SIGTAS</span></td>
+												<td style="width: 10%;" align="right"><span>3.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.sigtas}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input10" placeholder="0.00"
+														name="sigtas"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Resource (Time
+														&amp; People) Management</span></td>
+												<td style="width: 10%;" align="right"><span>1.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.time_people_mgt}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input11" placeholder="0.00"
+														name="time_people_mgt"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Advance IT Skills
+												</span></td>
+												<td style="width: 10%;" align="right"><span>4.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.advance_it_skill}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input12" placeholder="0.00"
+														name="advance_it_skill"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Work Planning </span></td>
+												<td style="width: 10%;" align="right"><span>2.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.work_planning}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input13" placeholder="0.00"
+														name="work_planning"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Creativity &amp;
+														Innovation</span></td>
+												<td style="width: 10%;" align="right"><span>3.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.creativity_innovation}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input14" placeholder="0.00"
+														name="creativity_innovation"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Project Management</span>
+												</td>
+												<td style="width: 10%;" align="right"><span>1.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.project_mgt}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input15" placeholder="0.00"
+														name="project_mgt"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Analytical
+														Thinking </span></td>
+												<td style="width: 10%;" align="right"><span>3.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.analytical_thinking}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input16" placeholder="0.00"
+														name="analytical_thinking"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Coaching &amp;
+														Mentoring</span></td>
+												<td style="width: 10%;" align="right"><span>2.00</span>
+												</td>
+												<td style="width: 10%;" align="right"><span><input th:value="${postAllPlanCompetencies.coaching_mentoring}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input17" placeholder="0.00"
+														name="coaching_mentoring"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;" align="right"><span><strong>Weight
+															must Total (40)</strong></span></td>
+												<td colspan="2" align="right"><span><input 
+														type="number" class="form-control" id="core_comp_tot"
+														placeholder="0.00" readonly="readonly"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</tr>
+								<tr>
+									<table class="table table-bordered">
+										<tbody>
+											<tr align="center">
+												<td>
+													<h3>
+														<strong>Managerial and Supervisory Competencies</strong>
+													</h3>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</tr>
+								<tr>
+									<table class="table table-bordered">
+										<tbody>
+											<tr>
+												<td style="width: 80%;"><span>Supervision &amp;
+														Management: Provide guidance to staff; manages staff
+														productivity well.</span></td>
+												<td style="width: 20%;" align="right"><span><input th:value="${postAllPlanCompetencies.sup_staff_guidiance}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input18" placeholder="0.00"
+														name="sup_staff_guidiance"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Planning,
+														Organizing, Implementing &amp; Controlling: Plans and
+														organizes work well; Implement tasks efficiently; Adhear
+														and implement internal controls. </span></td>
+												<td style="width: 20%;" align="right"><span><input th:value="${postAllPlanCompetencies.sup_planning_organizing}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input19" placeholder="0.00"
+														name="sup_planning_organizing"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Performance
+														Management: Manages staff performance by monitoring and
+														providing feedback continuously.</span></td>
+												<td style="width: 20%;" align="right"><span><input th:value="${postAllPlanCompetencies.sup_performance_mgt}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input20" placeholder="0.00"
+														name="sup_performance_mgt"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Staff Development:
+														Seeks to develop staff potential; Provides training for
+														staff; Encourages and counsels staff to reach potential. </span></td>
+												<td style="width: 20%;" align="right"><span><input th:value="${postAllPlanCompetencies.sup_staff_development}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input21" placeholder="0.00"
+														name="sup_staff_development"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;"><span>Coaching &amp;
+														Mentoring: ability to train, serve as support, and lead
+														others by guiding them though work process to enchance
+														performance</span></td>
+												<td style="width: 20%;" align="right"><span><input th:value="${postAllPlanCompetencies.sup_coaching_mentoring}"
+														type="number" required="required" step="0.01"
+														class="form-control" id="input22" placeholder="0.00"
+														name="sup_coaching_mentoring"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+											<tr>
+												<td style="width: 80%;" align="right"><span><strong>Weight
+															must Total (50)</strong></span></td>
+												<td style="width: 20%;" align="right"><span><input
+														type="number" class="form-control" id="sup_comp_tot"
+														placeholder="0.00" readonly="readonly"
+														style="background: rgba(255, 255, 255, 0); color: #000; text-align: right; border: none;" /></span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</tr>
+								<tr>
+									<table class="table table-bordered">
+										<tbody>
+											<tr>
+												<td style="width: 15%;"><span>Employee Signature
+														&amp;nbsp;<small><i>(Spell out your fullname
+																as Signature)</i></small>
+												</span> <span><input type="text" class="form-control"
+														id="employeesignature" placeholder="Employee Signature" /></span>
+												</td>
+												<td style="width: 10%;"><span>Date Sign
+														&amp;nbsp;<small><i>(Select date of Signature)</i></small>
+												</span> <span><input type="date" class="form-control"
+														id="employeesigndate" /></span></td>
+												<td style="width: 15%;"><span>Supervisor
+														Signature &amp;nbsp;<small><i>(Spell out your
+																fullname as Signature)</i></small>
+												</span> <span><input type="text" class="form-control"
+														id="supervisersignature"
+														placeholder="Supervisor Signature" /></span></td>
+												<td style="width: 10%;"><span>Date Sign
+														&amp;nbsp;<small><i>(Select date of Signature)</i></small>
+												</span> <span><input type="date" class="form-control"
+														id="supervisorsigndate" /></span></td>
+												<td style="width: 15%;"><span>Reviewer's
+														Signature &amp;nbsp;<small><i>(Spell out your
+																fullname as Signature)</i></small>
+												</span> <span><input type="text" class="form-control"
+														id="reviewersignature" placeholder="Reviewer Signature" /></span>
+												</td>
+												<td style="width: 10%;"><span>Date Sign
+														&amp;nbsp;<small><i>(Select date of Signature)</i></small>
+												</span> <span><input type="date" class="form-control"
+														id="reviewerSignDate" /></span></td>
+												<td style="width: 15%;"><span>HRD's Signature
+														&amp;nbsp;<small><i>(Spell out your fullname
+																as Signature)</i></small>
+												</span> <span><input type="text" class="form-control"
+														id="hrdsignature" placeholder="HRD's Signature" /></span></td>
+											</tr>
+										</tbody>
+									</table>
+								</tr>
+								<div class="text-center">
+									<button type="submit" class="btn btn-danger btn-lg"
+										id="saveApp">Approve Staff Performance Plan</button>
+								</div>
+
+							</form>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="modal fade" id="addActivity" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">ADD OBJECTIVE
+								TO ACTIVITY</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<form name="regForm" th:action="@{/addActivityPerformancePlan}"
+							method="post">
+							<input th:value="${employee.employee_id}" name="employeeIdTransfered" hidden="hidden"></input>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="hsCode" class="col-form-label">Performance
+										/ Workplan Objective</label>
+									<div>
+										<select id="performance_objective"
+											name="performance_objective" class="fstdropdown-select"
+											required="required">
+											<option disabled="disabled" value="">Select-An-Activity</option>
+											<option th:each="workplan : ${workplanActivityList}"
+												th:text="${workplan.activities}"
+												th:value="${workplan.activities}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="hsCode" class="col-form-label">Performance Indicators</label>
+									<div>
+										<select id="performance_indicators"
+											name="performance_indicators" class="fstdropdown-select"
+											required="required">
+											<option disabled="disabled" selected="selected">select
+												from list</option>
+											<option disabled="disabled" value="">Select-An-Indicator</option>
+											<option th:each="workplan : ${workplanActivityList}"
+												th:text="${workplan.indicators}"
+												th:value="${workplan.indicators}"></option>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<input type="number" class="form-control" required="required"
+										placeholder="QUARTER 1" id="quarter1" name="quarter1" />
+								</div>
+
+								<div class="form-group">
+									<input type="number" class="form-control" required="required"
+										placeholder="QUARTER 2" id="quarter2" name="quarter2" />
+								</div>
+								<div class="form-group">
+									<input type="number" class="form-control" required="required"
+										placeholder="QUARTER 3" id="quarter3" name="quarter3" />
+								</div>
+								<div class="form-group">
+									<input type="number" class="form-control" required="required"
+										placeholder="QUARTER 4" id="quarter4" name="quarter4" />
+								</div>
+								<div class="form-group">
+									<input type="number" class="form-control" required="required"
+										placeholder="Weight Assigned" id="weight_assigned"
+										name="weight_assigned" />
+								</div>
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" id="btnClose"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary" id="btnSubmit"
+									style="background: #000033;">Add Item</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+	</div>
+
+
+
+	<!-- Sidebar -->
+
+
+	<!-- Page Content -->
+
+
+
+
+	<div th:replace="common/header :: footer"></div>
+
+
+
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+	<script>
+		$('document').ready(
+				function() {
+
+					$('#input1').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input2').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input3').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input4').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input5').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input6').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input7').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input8').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input9').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input10').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input11').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input12').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input13').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input14').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input15').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input16').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+					$('#input17').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$core_comp_tot.val(Number($input1.val())
+										+ Number($input2.val())
+										+ Number($input3.val())
+										+ Number($input4.val())
+										+ Number($input5.val())
+										+ Number($input6.val())
+										+ Number($input7.val())
+										+ Number($input8.val())
+										+ Number($input9.val())
+										+ Number($input10.val())
+										+ Number($input11.val())
+										+ Number($input12.val())
+										+ Number($input13.val())
+										+ Number($input14.val())
+										+ Number($input15.val())
+										+ Number($input16.val())
+										+ Number($input17.val())
+										+ Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $core_comp_tot.val());
+							});
+
+					$('#input18').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $sup_comp_tot.val());
+							});
+
+					$('#input19').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $sup_comp_tot.val());
+							});
+					$('#input20').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $sup_comp_tot.val());
+							});
+
+					$('#input21').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $sup_comp_tot.val());
+							});
+
+					$('#input22').on(
+							'input',
+							function() {
+
+								var $input1 = $('#input1');
+								$input2 = $('#input2');
+								$input3 = $('#input3');
+								$input4 = $('#input4');
+								$input5 = $('#input5');
+								$input6 = $('#input6');
+								$input7 = $('#input7');
+								$input8 = $('#input8');
+								$input9 = $('#input9');
+								$input10 = $('#input10');
+								$input11 = $('#input11');
+
+								$input12 = $('#input12');
+								$input13 = $('#input13');
+								$input14 = $('#input14');
+								$input15 = $('#input15');
+								$input16 = $('#input16');
+								$input17 = $('#input17');
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+
+								$sup_comp_tot = $('#sup_comp_tot');
+								$core_comp_tot = $('#core_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								console.log('input value, Amount Value = '
+										+ $sup_comp_tot.val());
+							});
+				});
+	</script>
+
+	<script>
+		function JavaBlink() {
+			var blinks = document.getElementsByTagName('JavaBlink');
+			for (var i = blinks.length - 1; i >= 0; i--) {
+				var s = blinks[i];
+				s.style.visibility = (s.style.visibility === 'visible') ? 'hidden'
+						: 'visible';
+			}
+			window.setTimeout(JavaBlink, 1000);
+		}
+		if (document.addEventListener)
+			document.addEventListener("DOMContentLoaded", JavaBlink, false);
+		else if (window.addEventListener)
+			window.addEventListener("load", JavaBlink, false);
+		else if (window.attachEvent)
+			window.attachEvent("onload", JavaBlink);
+		else
+			window.onload = JavaBlink;
+	</script>
+			
+			<script>
+date = new Date();
+year = date.getFullYear();
+month = date.getMonth() + 1;
+day = date.getDate();
+document.getElementById("current_date").innerHTML = month + "/" + day + "/" + year;
+</script>
+	
+</body>
+
+</html>

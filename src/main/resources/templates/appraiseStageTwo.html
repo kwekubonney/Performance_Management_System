@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+				<p style="float:right;"><b>Performance Period</b> : <i>2023</i></p>
+				<h4>Dominic Bonney</h4>				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-10 col-sm-offset-1">
+				<div>
+					<h3 style="background-color:#000033; color:white; padding:20px;" class="text-center">Core Competences</h3>
+				</div>
+				<div >
+					<table class="table table-striped w-100">
+						<tr  style="background-color:#000033; color:white; padding:20px;">
+							<th>Competencies</th>
+							<th>Required</th>
+							<th>Actual Score</th>
+							<th>Action</th>
+						</tr>
+						<tr>
+							<td>The quick brown fox jump over the lazy dog</td>
+							<td>3</td>
+							<td>0.0</td>
+							<td>
+								<a>
+									<i class="glyphicon glyphicon-edit btn-warning" aria-hidden="true" data-backdrop="static" data-toggle="modal" data-target="#modalactual"></i>
+								</a>
+							</td>
+						</tr>
+						<tr style="background-color:yellow">
+							<td colspan="3">
+								<p class="text-right">TOTAL WEIGHT</p>
+							</td>
+							<td >
+								<p>601</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="modal fade" id="modalactual">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color:#000033; color:white">
+					<button class="close" data-dismiss="modal">
+		            	<span> &times; </span>
+		          	</button>
+					<h3>Core Competencies</h3>
+				</div>
+				<div class="modal-body">
+					<form action="">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-6">
+									<label>Competency Name</label>
+									<input type="text" value="First Competency" class="form-control"></input>
+								</div>
+								<div class="col-sm-6">
+									<label>Required Amount</label>
+									<input type="number" value="4" class="form-control"></input>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6 col-sm-offset-3">
+									<label>Actual Score</label>
+									<input type="number"  class="form-control"></input>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<input type="submit" class="btn btn-success" value="Submit"></input>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>	
+	</div>
+
+
+
+	<!-- Sidebar -->
+
+	<!-- Page Content -->
+
+
+
+
+	<div th:replace="common/header :: footer"></div>
+
+
+
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+	
+	
+	
+
+
+
+
+</body>
+
+</html>

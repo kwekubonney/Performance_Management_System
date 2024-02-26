@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+
+	<div class="col-md-12" style="margin-bottom: 5%">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div class="container" align="center">
+					<div class="col-md-4"></div>
+					<div class="col-md-4"></div>
+					<div class="col-md-4">
+						<h3 style="color: red; margin-left: 30px;">
+							User:<span th:text="${employee.first_name} + ' '+${employee.last_name} "></span>
+						</h3>
+					</div>
+				</div>
+				<div class="container" align="center">
+					<h2>
+						<strong>PLANNING FORM</strong>
+					</h2>
+				</div>
+				<div class="table-responsive col-sm-12">
+					<table id="applListTable"
+						class="table table-bordered table-hover table-striped">
+						<tbody>
+
+							<tr align="center"
+								style="background-color: #000033; color: white;">
+								<td>
+									<h4>
+										<strong>STAFF INFORMATION</strong>
+									</h4>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table class="table table-bordered bg-danger">
+										<tbody >
+											<tr>
+												<td style="width:270px;">FULL NAME  :</td>
+												<td>
+													<strong> <span
+														th:text="${employee.first_name} +' '+ ${employee.middle_name} +' '+ ${employee.last_name}">N/A</span></strong>
+												</td>
+											</tr>
+											
+											<tr>
+												<td>POSITION:</td>
+												<td>
+													<strong> <span
+														th:text="${employee.position}">N/A</span></strong>
+												</td>
+											</tr>
+											<tr>
+												<td>DEPARTMENT/DIVISION/SECTION :</td>
+												<td>
+													<strong> <span
+														th:text="${employee.Department}">N/A</span></strong>
+												</td>
+											</tr>
+											<tr>
+												<td>PERFORMANCE PERIOD :</td>
+												<td>
+													<strong> <span
+														th:text="${period}">N/A</span></strong>
+												</td>
+											</tr>
+											<tr>
+												<td>NAME OF SUPERVISOR:</td>
+												<td>
+													<strong> <span
+														th:text="${employee.supervisor_name}">N/A</span></strong>
+												</td>
+											</tr>
+											
+											
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr class="text-center" th:if="${sectionOneError}" id="routeSectionOneHere"
+								style="color: #a94442; background-color: #f2dede; border-color: #ebccd1;">
+								<td>
+									<h4>
+										<JavaBlink> <strong>ERROR : Total weight
+											for SECTION ONE should be exactly sixty(60).</strong></JavaBlink>
+									</h4>
+								</td>
+							</tr>
+							
+							<tr class="text-center" th:if="${postPerformancePlanSaved}"
+								style="color: #a94442; background-color: #C2E5D3; border-color: #ebccd1;">
+								<td>
+									<h4>
+										<JavaBlink> <strong>SUCCESS : You have
+											successfully submitted this Performance Plan </strong></JavaBlink>
+									</h4>
+								</td>
+							</tr>
+
+							<tr style="background-color: #000033; color: white;"
+								id="PerformancePlanSectionOne">
+								<td>
+									<h4>
+										<strong>SECTION ONE - PERFORMANCE PLANNING: Use this
+											section to capture the staff's direct output required for
+											successful performance for the year.</strong>
+									</h4>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table class="table table-bordered tblPerformanceObjective">
+										<thead>
+											<tr style="background-color: aliceblue; color: black;">
+												<th colspan="5" >
+													<h4>Workplan / Performance Objectives</h4>
+													<p>(i.e. specific end result by which each KRA will be
+														measured.)</p>
+												</th>
+												<th colspan="5">
+													<h4>Performance Indicators/Measure</h4>
+													<p>(i.e. How/what will the achievement look like when
+														completed.)</p>
+												</th>
+												<th colspan="4">
+													<h4>Target</h4>
+													<p>(i.e. expressed as %. Total target for 4 quarters
+														should not exceed 100%.)</p>
+													<p>
+													<table class="table table-bordered">
+														<thead>
+															<tr style="background-color: aliceblue; color: black;">
+
+																<th class="text-center">Mid-Year</th>
+																<th class="text-center">Final Year</th>
+																<!-- <th class="text-center">Quarter Three</th>
+																<th class="text-center">Quarter Four</th> -->
+
+															</tr>
+														</thead>
+													</table>
+													</p>
+												</th>
+												<th colspan="1">
+													<p><b>Weight Assigned</b></p>
+													<p>(i.e. significance applied to KRA)</p>
+												</th>
+												<th colspan="2">
+													<h4>Action</h4>
+												</th>
+											</tr>
+
+										</thead>
+										<tbody>
+											<tr data-th-each="plan : ${performancePlanList}">
+												<td colspan="5" th:text="${plan.performance_objective}"></td>
+												<td colspan="5" th:text="${plan.performance_indicators}"></td>
+												<td colspan="2" th:text="${plan.midYear} + '%'"
+													class="text-center">25%</td>
+												<td colspan="2" th:text="${plan.finalYear} + '%'"
+													class="text-center">25%</td>
+												
+												<td colspan="1" th:text="${plan.weight_assigned} + .00"
+													align="right"></td>
+
+												<td colspan="2" align="right">
+														<span>
+															<a
+																class="btn btn-lg" th:if="${editObjectiveActionButton}"
+																th:href="@{/editPerformancePlanObjective(objId=${plan.id})}"><i
+																	class="glyphicon glyphicon-edit" aria-hidden="true"
+																	style="color: #000033;"></i>
+															</a>
+															</span>&nbsp;<span><a
+														th:href="@{/removePerformancePlanObjective(id=${plan.id},employee_id=${employee.employee_id})}"
+														th:if="${removeObjectiveActionButton}"><i
+															class="glyphicon glyphicon-trash" aria-hidden="true"
+															style="color: red;"></i><span>&nbsp;</span></a></span>
+												</td>
+
+											</tr>
+										</tbody>
+									</table>
+									<table class="table table-bordered">
+										<tbody>
+											<tr style="background-color: aliceblue; color: black;">
+												<td colspan="2" >
+													<span>
+														<button th:if="${addObjectiveActionButton}" type="button" 
+															data-toggle="modal" data-target="#addActivity"
+															data-whatever="@mdo" class="btn-lg" style="background-color:#000033; color:white;">
+																ADD NEW
+														</button>
+													</span>
+												</td>
+												<td colspan="14" align="right">
+													<h5>
+														<strong>Weight must Total (60) </strong>
+													</h5>
+												</td>
+												<td colspan="2" align="right"><strong><span
+														id="totalValue" th:text="${totalValue}">0.00</span></strong></td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+
+							<tr id="PerformancePlanSectionTwo">
+								<table class="table table-bordered">
+									
+									<tbody>
+									</tbody>
+								</table>
+							</tr>
+							<form class="form-horizontal" id="submitPerfomancePlan"
+								th:action="@{/submitPlanning}" method="post"
+								enctype="multipart/form-data">
+									<input 
+										th:value="${employee.employee_id}" name="employeeIdTransfered" hidden="hidden"></input> 
+									
+										
+										<input th:if="${staffid}" name="staffid" th:value="${staffid}" type="hidden" />
+										<input th:if="${staffid == null}" name="staffid" value="0" type="hidden" />
+									
+								
+							<tr>
+
+								
+								<table class="table table-bordered">
+									<tbody>
+										
+									</tbody>
+								</table>
+							</tr>
+							
+							<tr>
+								<td colspan="4">
+									<h5>
+										<strong><span style="color:red;">*</span>PLEASE COMMENT :</strong>
+									</h5> <span><textarea rowspan="4" type="text"  class="form-control"
+											id="staffcomment" name="staffComments" required="required"
+											placeholder="Please Comment here..."></textarea></span>
+								</td>
+								
+							</tr><br />
+							<tr>
+								<p class="text-danger">Please view comment before proceeding</p>
+								<button type="button" class=" btn-sm btn-success" data-toggle="modal" data-target="#comments">View Comments</button>
+							</tr>
+							
+							<tr>
+								<td colspan="4"><br /></td>
+							</tr>
+
+							<tr>
+								
+							</tr>
+							<div id="loading"></div>
+							<div class="text-center">
+								<input type="submit" name="param"
+									value="Return Performance Plan" id="returnPerformancePlan"
+									th:if="${approveReturnActionButton == true} or ${returnPlanBtn == true}"
+									class="btn btn-danger btn btn-lg" /> F
+									<input type="submit"
+									name="param" value="Submit Performance Plan"
+									id="submitPerformancePlan"
+									th:if="${submitActionButton == true}" class="btn btn-lg"
+									style="background: #000033; color: #fff;" /> 
+									<input
+									type="submit" name="param" value="Approve Performance Plan"
+									id="approvePerformancePlan"
+									th:if="${approveReturnActionButton == true}" class="btn btn-lg"
+									style="background: #000033; color: #fff;" />
+
+							</div>
+							</form>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="modal fade" id="addScore" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabell" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">ADD
+								Competency Score</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true" class="text-danger">&times;</span>
+							</button>
+						</div>
+						<form name="regForm" th:action="@{/savePlanActualScore}"
+							method="post">
+							<input th:value="${employee.employee_id}"
+								name="employeeIdTransfered" hidden="hidden"></input> <input
+								id="id" name="id" hidden="hidden"></input>
+							<div class="modal-body">
+								<div class="col-md-12">
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="col-form-label">Required Amount</label>
+											<div>
+												<input class="form-control" id="required_point"
+													disabled="disabled"></input>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-form-label">Weight Assign</label>
+											<div>
+												<input type="hidden" class="form-control" id="competency_id"
+													name="competencyId" autofocus="autofocus" /> <input
+													class="form-control" id="actual_score" name="score"
+													required="required" autofocus="autofocus">
+												<script type="text/javascript">
+													document.getElementById(
+															'actual_score')
+															.focus();
+												</script>
+												</input>
+											</div>
+										</div>
+
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="col-form-label">Comptency Name</label>
+											<div>
+												<textarea id="competency_name" disabled="disabled"
+													class="form-control"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12"></div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" id="btnClose"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary"
+									id="btnSubmitAddActualScoreCompetency" disabled="disabled"
+									th:disabled="${postPerformancePlanSaved == true}"
+									style="background: #000033;">Add Score</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="addActivity" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">ADD OBJECTIVE
+								TO ACTIVITY</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<form name="regForm" th:action="@{/addActivityPerformancePlan}"
+							method="post">
+							<input th:value="${employee.employee_id}"
+								name="employeeIdTransfered" hidden="hidden"></input>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="hsCode" class="col-form-label">Performance
+										/ Workplan Objective</label>
+									<div>
+										<input type="text" class="form-control" name="performance_objective" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="hsCode" class="col-form-label">Performance
+										Indicators</label>
+									<div>
+											<input type="text" name="performance_indicators" class="form-control" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="hsCode" class="col-form-label">Mid-Year</label>
+									<input type="number" class="form-control" 
+										placeholder="GIVE MID-YEAR TARGET" id="quarter1" name="quarter1" />
+								</div>
+
+								<div class="form-group">
+									<label for="hsCode" class="col-form-label">Final Year</label>
+									<input type="number" class="form-control" required="required"
+										placeholder="GIVE FINAL YEAR TARGET" id="quarter2" name="quarter2" />
+								</div>
+								
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" id="btnClose"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary"
+									id="btnSubmitAddActivity" style="background: #000033;">Add
+									Objective</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="editActivity" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">MODIFY
+								OBJECTIVE TO ACTIVITY</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<form name="regForm" th:action="@{/assignWeight}"
+							method="post">
+							<input th:value="${employee.employee_id}" hidden="hidden"
+								name="employeeIdTransfered"></input> <input type="text"
+								id="edit_performance_objective_id" name="objectid" hidden="hidden"></input>
+								<input type="text" id="plan_id" name="planid" hidden="hidden"></input>
+							<div class="modal-body">
+								<div class="form-group"
+									th:hidden="${staffPrivilegeDisable == true}">
+									
+									<div>
+										<select id="edit_performance_objective" class="form-control"
+											name="performance_objective">
+											<option disabled="disabled" value="" selected="selected">Select-An-Activity</option>
+											<option th:each="workplan : ${workplanActivityList}"
+												th:text="${workplan.id}+'_'+${workplan.activities}"
+												th:value="${workplan.id}+'_'+${workplan.activities}"></option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="hsCode" class="col-form-label">Performance1
+										/ Workplan Objective</label>
+									<div>
+										<input id="edit_performance_objective_display"
+											class="form-control" readonly="readonly" name="performance_objective" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="hsCode" class="col-form-label">Performance Indicators</label>
+									<div>
+										<input id="edit_performance_indicators" class="form-control"
+											readonly="readonly" name="performance_indicators"
+											required="required" />
+									</div>
+								</div>
+
+								<div class="form-group">
+								<label  class="col-form-label">Mid-year Target</label>
+									<input type="number" class="form-control" value="0"
+										th:readonly="${staffPrivilegeDisable == true}"
+										placeholder="Biannual" id="edit_quarter1" name="quarter1" />
+								</div>
+
+								<div class="form-group">
+								<label  class="col-form-label">Final Year Target</label>
+									<input type="number" class="form-control" required="required"
+										th:readonly="${staffPrivilegeDisable == true}"
+										placeholder="Annual " id="edit_quarter2" name="quarter2" />
+								</div>
+								
+								<div class="form-group">
+									<label  class="col-form-label"><span style="color:red;">*</span>Weight Assign</label>
+									  <input type="number" class="form-control" required="required"
+										th:readonly="${supervisorPrivilegeDisable == true}"
+										placeholder="Weight Assigned" id="edit_weight_assigned"
+										name="weight_assigned" /> 
+								</div>
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" id="btnClose"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary"
+									id="btnSubmitEditActivity" style="background: #000033;">Save
+									Objective</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="comments">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+						<button type="button" class="close text-danger" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h2 class="modal-title" id="exampleModalLabel">Planning Comments</h2>
+							
+						</div>
+						
+						<div class="modal-body">
+							<div class="card" data-th-each="showcomment : ${showcomments}" style="padding:10px; box-shadow:-1px 1px 1px -1px gray;">
+								<h4  th:text="${showcomment.first_name} + ' ' + ${showcomment.middle_name} + ' ' + ${showcomment.last_name}" class="text-primary"><b><i><span></span></i></b></h4>
+								<p th:text="${showcomment.staffComments}">The quick brown fox jump over the lazy dog just this morning</p>
+								<small th:text="${showcomment.dateUpdated}">10/17/2023 2:20:00</small>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div hidden="hidden">
+			<a id="val2" th:href="@{/getWorkPlanActivitiesIndicator}"
+				class="btn btn-warning btn-xs"></a>
+		</div>
+
+	</div>
+
+
+
+	<!-- Sidebar -->
+
+
+	<!-- Page Content -->
+
+
+
+
+	<div th:replace="common/header :: footer"></div>
+
+
+
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+	<script type="text/javascript">
+		$('document')
+				.ready(
+						function() {
+							$('.tblAddScore .btn')
+									.on(
+											'click',
+											function(event) {
+
+												event.preventDefault();
+
+												var href = $(this).attr('href');
+												$
+														.get(
+																href,
+																function(
+																		planCompetency,
+																		status) {
+
+																	$(
+																			"#competency_id")
+																			.val(
+																					planCompetency.id);
+																	$(
+																			"#competency_name")
+																			.val(
+																					planCompetency.competency_title);
+																	$(
+																			"#required_point")
+																			.val(
+																					planCompetency.required_point);
+																	$(
+																			"#actual_score")
+																			.val(
+																					planCompetency.actual_point);
+
+																});
+
+												$('#addScore').modal();
+
+											});
+
+							$('.tblPerformanceObjective .btn')
+									.on(
+											'click',
+											function(event) {
+
+												event.preventDefault();
+
+												var href = $(this).attr('href');
+												$
+														.get(
+																href,
+																function(
+																		performancePlanObj,
+																		status) {
+
+																	$(
+																			"#edit_performance_objective_id")
+																			.val(
+																					performancePlanObj.id);
+																	$("#plan_id").val(performancePlanObj.plan_id);
+																	document
+																			.getElementById('edit_performance_objective').value = (performancePlanObj.performance_objective)
+																			.trim();
+																	$(
+																			"#edit_performance_objective_display")
+																			.val(
+																					performancePlanObj.performance_objective);
+																	$(
+																			"#edit_performance_indicators")
+																			.val(
+																					performancePlanObj.performance_indicators);
+																	$(
+																			"#edit_quarter1")
+																			.val(
+																					performancePlanObj.quarter1);
+																	$(
+																			"#edit_quarter2")
+																			.val(
+																					performancePlanObj.quarter2);
+																	/* $(
+																			"#edit_quarter3")
+																			.val(
+																					performancePlanObj.quarter3);
+																	$(
+																			"#edit_quarter4")
+																			.val(
+																					performancePlanObj.quarter4); */
+																	$(
+																			"#edit_weight_assigned")
+																			.val(
+																					performancePlanObj.weight_assigned);
+
+																});
+
+												$('#editActivity').modal();
+
+											});
+
+						});
+	</script>
+
+	<script type="text/javascript">
+		$('document')
+				.ready(
+						function() {
+
+							$('#edit_quarter1')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#edit_quarter1');
+												$quarter2 = $('#edit_quarter2');
+												/* $quarter3 = $('#edit_quarter3');
+												$quarter4 = $('#edit_quarter4'); */
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())
+														/* + Number($quarter3
+																.val()) */ /* + Number($quarter4
+														.val()) */
+														)
+
+												if (total != 100) {
+
+													btnSubmitEditActivity.disabled = true;
+
+												} else {
+
+													btnSubmitEditActivity.disabled = false;
+
+												}
+
+											});
+
+							$('#edit_quarter2')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#edit_quarter1');
+												$quarter2 = $('#edit_quarter2');
+												$quarter3 = $('#edit_quarter3');
+												$quarter4 = $('#edit_quarter4');
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())
+														/* + Number($quarter3
+																.val()) + Number($quarter4
+														.val()) */
+														)
+
+												if (total != 100) {
+
+													btnSubmitEditActivity.disabled = true;
+
+												} else {
+
+													btnSubmitEditActivity.disabled = false;
+
+												}
+
+											});
+
+							/* $('#edit_quarter3')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#edit_quarter1');
+												$quarter2 = $('#edit_quarter2');
+												$quarter3 = $('#edit_quarter3');
+												$quarter4 = $('#edit_quarter4');
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())
+														+ Number($quarter3
+																.val()) + Number($quarter4
+														.val()))
+
+												if (total != 100) {
+
+													btnSubmitEditActivity.disabled = true;
+
+												} else {
+
+													btnSubmitEditActivity.disabled = false;
+
+												}
+
+											});
+ */
+							/* $('#edit_quarter4')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#edit_quarter1');
+												$quarter2 = $('#edit_quarter2');
+												$quarter3 = $('#edit_quarter3');
+												$quarter4 = $('#edit_quarter4');
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())
+														+ Number($quarter3
+																.val()) + Number($quarter4
+														.val()))
+
+												if (total != 100) {
+
+													btnSubmitEditActivity.disabled = true;
+
+												} else {
+
+													btnSubmitEditActivity.disabled = false;
+
+												}
+
+											}); */
+
+						});
+	</script>
+
+	<!-- <script>
+		/*<![CDATA[*/
+		$('#submitPerformancePlan').click(function(e) {
+			$('#loading').show();
+
+		});
+
+/* 		$('#returnPerformancePlan').click(function(e) {
+			$('#loading').show();
+
+		}); */
+
+		function validateForm() {
+			totSec1 = document.getElementById("totalValue").innerText;
+			totSec2 = document.getElementById("totalCompetencyValue").innerText;
+			$totSec3 = $('#sup_comp_tot');
+			$level = $('#level');
+			if (Number($level.val()) == 2) {
+				if ($("#isSupervisor").val()) {
+					if (Number(totSec1) == 60 && Number(totSec2) == 40
+							&& Number($totSec3.val()) == 50) {
+						$('#loading').show();
+					} else {
+						bootbox
+								.alert('Please fill form out properly before submitting!');
+						return false;
+					}
+				} else {
+
+					if (Number(totSec1) == 60 && Number(totSec2) == 40) {
+						$('#loading').show();
+					} else {
+						bootbox
+								.alert('Please fill form out properly before submitting!');
+						return false;
+					}
+				}
+			} else {
+
+				$('#loading').show();
+			}
+		}
+
+		/*]]>*/
+	</script> -->
+
+
+	<script>
+		$("#performance_objective")
+				.on(
+						"change",
+						function() {
+							/*<![CDATA[*/
+							var path = /*[[@{/}]]*/'getWorkPlanActivitiesIndicator?objId='
+									+ $('#performance_objective').val().substring(0,$('#performance_objective').val().indexOf("_"));
+							//alert($('#performance_objective').val().substring(0,$('#performance_objective').val().indexOf("_")));
+						
+							/*]]>*/
+							//console.log(path);
+							  alert('Kindly ensure that the SUM for the two(2) target should be exactly 100.'); 
+							$.get(path, function(workplan, status) {
+
+								//alert(workplan.indicators);
+								$("#performance_indicators").val(
+										workplan.indicators);
+
+							});
+						});
+
+		$("#edit_performance_objective")
+				.on(
+						"change",
+						function() {
+							/*<![CDATA[*/
+							var path = /*[[@{/}]]*/'getWorkPlanActivitiesIndicator?objId='
+									+ $('#edit_performance_objective').val()
+											.charAt();
+							/*]]>*/
+							 alert('Kindly ensure that values for the two(2) target should be exactly 100.')
+							$.get(path, function(workplan, status) {
+								$("#edit_performance_objective_display")
+										.val(
+												workplan.id + '_'
+														+ workplan.activities);
+
+								$("#edit_performance_indicators").val(
+										workplan.indicators);
+
+							});
+						});
+	</script>
+
+	<script>
+		/*<![CDATA[*/
+		$('document').ready(
+				function() {
+
+					$('#input18').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_tot = $('#sup_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+							});
+
+					$('#input19').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_tot = $('#sup_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+							});
+
+					$('#input20').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_tot = $('#sup_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+							});
+
+					$('#input21').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_tot = $('#sup_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+							});
+					$('#input22').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_tot = $('#sup_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+							});
+				});
+		/*]]>*/
+	</script>
+
+	<!-- ************************************************************************************** -->
+
+	<script type="text/javascript">
+		$('document')
+				.ready(
+						function() {
+
+							$('#quarter1')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#quarter1');
+												$quarter2 = $('#quarter2');
+												/* $quarter3 = $('#quarter3');
+												$quarter4 = $('#quarter4'); */
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())/* 
+														+ Number($quarter3
+																.val()) + Number($quarter4
+														.val()) */
+														)
+
+												if (total != 100) {
+
+													btnSubmitAddActivity.disabled = true;
+
+												} else {
+
+													btnSubmitAddActivity.disabled = false;
+
+												}
+
+											});
+							$('#quarter2')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#quarter1');
+												$quarter2 = $('#quarter2');
+												/* $quarter3 = $('#quarter3');
+												$quarter4 = $('#quarter4'); */
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())
+														/* + Number($quarter3
+																.val()) + Number($quarter4
+														.val()) */)
+
+												if (total != 100) {
+
+													btnSubmitAddActivity.disabled = true;
+
+												} else {
+
+													btnSubmitAddActivity.disabled = false;
+
+												}
+
+											});
+
+					/* 		$('#quarter3')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#quarter1');
+												$quarter2 = $('#quarter2');
+												/* $quarter3 = $('#quarter3');
+												$quarter4 = $('#quarter4'); 
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())
+														 + Number($quarter3
+																.val()) + Number($quarter4
+														.val()) )
+
+												if (total != 100) {
+
+													btnSubmitAddActivity.disabled = true;
+
+												} else {
+
+													btnSubmitAddActivity.disabled = false;
+
+												}
+
+											}); */
+							/* $('#quarter4')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#quarter1');
+												$quarter2 = $('#quarter2');
+												$quarter3 = $('#quarter3');
+												$quarter4 = $('#quarter4');
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())
+														+ Number($quarter3
+																.val()) + Number($quarter4
+														.val()))
+
+												if (total != 100) {
+
+													btnSubmitAddActivity.disabled = true;
+
+												} else {
+
+													btnSubmitAddActivity.disabled = false;
+
+												}
+
+											}); */
+						});
+	</script>
+
+	<!-- <script type="text/javascript">
+		$('document')
+				.ready(
+						function() {
+
+							$('#quarter2')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#quarter1');
+												$quarter2 = $('#quarter2');
+												$quarter3 = $('#quarter3');
+												$quarter4 = $('#quarter4');
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())
+														+ Number($quarter3
+																.val()) + Number($quarter4
+														.val()))
+
+												if (total != 100) {
+
+													btnSubmitAddActivity.disabled = true;
+
+												} else {
+
+													btnSubmitAddActivity.disabled = false;
+
+												}
+
+											});
+						});
+	</script>
+
+	<script type="text/javascript">
+		$('document')
+				.ready(
+						function() {
+
+							$('#quarter3')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#quarter1');
+												$quarter2 = $('#quarter2');
+												$quarter3 = $('#quarter3');
+												$quarter4 = $('#quarter4');
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())
+														+ Number($quarter3
+																.val()) + Number($quarter4
+														.val()))
+
+												if (total != 100) {
+
+													btnSubmitAddActivity.disabled = true;
+
+												} else {
+
+													btnSubmitAddActivity.disabled = false;
+
+												}
+
+											});
+						});
+	</script>
+
+	<script type="text/javascript">
+		$('document')
+				.ready(
+						function() {
+
+							$('#quarter4')
+									.on(
+											'input keyup',
+											function() {
+
+												$quarter1 = $('#quarter1');
+												$quarter2 = $('#quarter2');
+												$quarter3 = $('#quarter3');
+												$quarter4 = $('#quarter4');
+
+												var total = (Number($quarter1
+														.val())
+														+ Number($quarter2
+																.val())
+														+ Number($quarter3
+																.val()) + Number($quarter4
+														.val()))
+
+												if (total != 100) {
+
+													btnSubmitAddActivity.disabled = true;
+
+												} else {
+
+													btnSubmitAddActivity.disabled = false;
+
+												}
+
+											});
+						});
+	</script>
+ -->
+</body>
+
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/adminHead :: navbar"></div>
+	
+	<div th:if="${userExist}" class="alert alert-danger">
+		<h5><b>Staff with this email <span th:text="${email}"></span> exist</b></h5> 
+	</div>
+
+	<div class="row">
+		<div class="col-sm-10 col-sm-offset-1" style=" background:#f1f1f1; border:1px solid black;">
+			<center><h3>CREATE USER FORM</h3></center>
+			<form th:action="@{/adduser}" style="padding:20px; background:#f1f1f1;" method="Post" th:object="${employee}">
+			<div class="row my-2">
+				<div class="col-sm-4">
+					<label>First Name</label>
+					<input type="text" class="form-control" name="first_name" th:field="*{first_name}"/>
+				</div>
+				<div class="col-sm-4">
+					<label>Middle Name</label>
+					<input type="text" class="form-control" th:field="*{middle_name}"/>
+				</div>
+				<div class="col-sm-4">
+					<label>Last Name</label>
+					<input type="text" class="form-control" name="last_name" th:field="*{last_name}"/>
+				</div>
+			</div>
+			
+			<div class="row my-2">
+				<div class="col-sm-4">
+					<label>Employee ID</label>
+					<input type="text" class="form-control" th:field="*{employee_id}"/>
+				</div>
+				<div class="col-sm-4">
+					<label>Position</label>
+					<input type="text" class="form-control"  th:field="*{position}"/>
+				</div>
+				<div class="col-sm-4">
+					<label>Department</label>
+					<input type="text" class="form-control" th:field="*{department}"/>
+				</div>
+			</div>
+			
+			<div class="row my-2">
+				<div class="col-sm-4">
+					<label>Email</label>
+					<input type="text" class="form-control" name="email"  th:field="*{email}"/>
+				</div>
+				<div class="col-sm-4">
+					<label>Staff Phone #</label>
+					<input type="text" class="form-control" name="phone" th:field="*{phone}"/>
+				</div>
+				<div class="col-sm-4">
+					<label>Duty Location</label>
+					<input type="text" class="form-control" th:field="*{duty_location}"/>
+				</div>
+			</div>
+			
+			<div class="row my-2">
+				<div class="col-sm-7">
+					<label>Gender</label>
+					<select class="form-control" th:field="*{gender}">
+						<option th:value="M">Male</option>
+						<option th:value="F">Female</option>
+					</select>
+				</div>
+				<div class="col-sm-4">
+					<label>Job Grade</label>
+					<input type="text" class="form-control" name=""/>
+				</div>
+				
+			</div>
+			
+			
+			<div class="row my-2">
+				<div class="col-sm-3">
+					<label>Supervisor Name</label>
+					<input type="text" class="form-control"  required="required" th:field="*{supervisor_name}"/>
+				</div>
+				<div class="col-sm-3">
+					<label>Supervisor ID</label>
+					<input type="number" class="form-control" required="required" th:field="*{supervisor_id}"/>
+				</div>
+				<div class="col-sm-3">
+					<label>Supervisor Title</label>
+					<input type="text" class="form-control" required="required" th:field="*{supervisor_title}"/>
+				</div>
+				<div class="col-sm-3">
+					<label>Supervisor Phone #</label>
+					<input type="text" class="form-control" required="required" th:field="*{supervisor_phone}"/>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-sm-2">
+					<input type="submit" value="SAVE" class="btn btn-success form-control loading"/>
+				</div>
+			</div>
+			<div id="loading"></div>
+		</form>
+		</div>
+		
+	</div><br/> <br/>
+	
+	<div class="row">
+	<div class="col-sm-10 col-sm-offset-1">
+		<div class="m3">
+		<h3><u>USER LIST</u></h3>
+		<table class="table table-bordered table-striped">
+				<tr class="bg-danger"> 
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>Department</th>
+				</tr>
+				<tr data-th-each = "user : ${users} ">
+					<td th:text = "${user.first_name}"></td>
+					<td th:text = "${user.last_name}"></td>
+					<td th:text = "${user.email}"></td>
+					<td th:text = "${user.department}"></td>
+					<td>
+						<!-- <form action="${/userrole}" method="Post">
+							<input type="submit" name="param" class="btn btn-primary" value="Edit" />
+						</form> -->
+						<a class="btn btn-success" th:href="@{/edituser(email=(${user.email}))}">Edit</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+			
+		</div>
+		</div>
+		
+		<div th:replace="common/adminHead :: footer"></div>
+	<div th:replace="common/adminHead :: body-bottom-scripts"></div>
+		
+		
+
+</body>
+
+</html>

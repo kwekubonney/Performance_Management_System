@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+
+	<div class="col-md-12">
+		<div class="content">
+			<div class="container-fluid">
+
+				<div class="container" align="center">
+					<div class="col-md-4"></div>
+					<div class="col-md-4"></div>
+					<div class="col-md-4">
+						<h3 style="color: red; margin-left: 30px;">
+							User:<span
+								th:text="${staffInfo.first_name} + ' ' +  ${staffInfo.last_name}"></span>
+						</h3>
+					</div>
+				</div>
+				<div class="container" align="center">
+					<h2>
+						<strong>EVALUATION FORM</strong>
+					</h2>
+				</div>
+				<div class="table-responsive">
+				<form th:action="@{/staffApproveEvaluation}" method="post"
+									th:object="${staffcompetency}">
+					<table id="applListTable"
+						class="table table-bordered table-hover table-striped">
+						<tbody>
+
+							<tr align="center"
+								style="background-color: #000033; color: white;">
+								<td>
+									<h4>
+										<strong>STAFF INFORMATION</strong>
+									</h4>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table class="table table-bordered">
+										<tbody>
+											<tr>
+												<td style="width: 270px;">FULL NAME :</td>
+												<td><strong><span
+														th:text="${staffInfo.first_name} + ' ' + ${staffInfo.middle_name} + ' ' + ${staffInfo.last_name}">N/A</span>
+												</strong></td>
+											</tr>
+											
+											<!-- <tr>
+												<td>JOB GRADE :</td>
+												<td><strong> <span
+														th:text="${staffInfo.job_grade}">Job Grade Value</span></strong></td>
+											</tr> -->
+											
+											<tr>
+												<td>POSITION :</td>
+												<td><strong> <span
+														th:text="${staffInfo.position}">Position Value</span></strong></td>
+											</tr>
+											<tr>
+												<td>DEPARTMENT/DIVISION/SECTION :</td>
+												<td><strong> <span
+														th:text="${staffInfo.Department}">Department Value</span></strong>
+												</td>
+											</tr>
+											<tr>
+												<td>PERFORMANCE PERIOD :</td>
+												<td><strong> <span th:text="${stateperiod}"></span></strong></td>
+											</tr>
+											<!-- <td colspan="2">
+													<p>STAFF PHONE #</p> <strong> <span
+														th:text="${employee.phone}">Staff Phone Value</span></strong>
+												</td>
+											</tr> -->
+											<tr>
+												<td>NAME OF SUPERVISOR :</td>
+												<td><strong> <span
+														th:text="${staffInfo.supervisor_name}">Name of
+															Supervisor Value</span></strong></td>
+											</tr>
+											
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr class="text-center" th:if="${sectionOneError}"
+								style="color: #a94442; background-color: #f2dede; border-color: #ebccd1;">
+								<td>
+									<h4>
+										<JavaBlink> <strong>ERROR : Total weight
+											for SECTION ONE should be less than or equals sixty(60).</strong></JavaBlink>
+									</h4>
+								</td>
+							</tr>
+							<tr class="text-center" th:if="${sectionTwoError}"
+								style="color: #a94442; background-color: #f2dede; border-color: #ebccd1;">
+								<td>
+									<h4>
+										<JavaBlink> <strong>ERROR : Total weight
+											for SECTION TWO should be less than or equals forty(40).</strong></JavaBlink>
+									</h4>
+								</td>
+							</tr>
+							<tr class="text-center" th:if="${sectionThreeError}"
+								style="color: #a94442; background-color: #f2dede; border-color: #ebccd1;">
+								<td>
+									<h4>
+										<JavaBlink> <strong>ERROR : Total weight
+											for SECTION THREE should be less than or equals fifty(50).</strong></JavaBlink>
+									</h4>
+								</td>
+							</tr>
+							<tr class="text-center" th:if="${performanceEvaluationSavedMsg}"
+								style="color: #a94442; background-color: #C2E5D3; border-color: #ebccd1;">
+								<td>
+									<h4>
+										<JavaBlink> <strong>SUCCESS : You have
+											successfully submitted your Performance Evaluation </strong></JavaBlink>
+									</h4>
+								</td>
+							</tr>
+							<tr id="EvaluationSectionOne">
+								<td style="background-color: #000033; color: white;">
+									<h4>
+										<strong>SECTION ONE - ANNUAL PLANNING: Use this
+											section to capture the staff's direct output required for
+											successful performance for the year.</strong>
+									</h4>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<table class="table table-bordered">
+										<thead>
+											<tr style="background-color: aliceblue; color: black;">
+												<th colspan="5">
+													<h4>Performance Objectives</h4>
+													<p>(i.e. specific end result by which each KRA will be
+														measured.)</p>
+												</th>
+												<th colspan="5">
+													<h4>Performance Indicators/Measure</h4>
+													<p>(i.e. How/what will the achievement look like when
+														completed.)</p>
+												</th>
+												<th colspan="4">
+													<h4>Quarterly Evaluation Target</h4>
+													<p>
+													<table class="table table-bordered">
+														<thead>
+															<tr style="background-color: aliceblue; color: black;">
+																<th>Mid-year</th>
+																<th>Final-year</th>
+																<!-- <th>Quarter 3</th>
+																<th>Quarter 4</th> -->
+															</tr>
+														</thead>
+													</table>
+
+													</p>
+												</th>
+												<th colspan="2">
+													<h4>Indicate action taken to ensure objective is
+														achieved</h4>
+													<p>
+													<table class="table table-bordered">
+														<thead>
+															<tr style="background-color: aliceblue; color: black;">
+																<th>Employee</th>
+																<th>Supervisor</th>
+															</tr>
+														</thead>
+													</table>
+
+													</p>
+												</th>
+												<th colspan="1">
+													<h4>Actual</h4>
+												</th>
+												<th colspan="1">
+													<h4>Score</h4>
+													<p>Actual / Target</p>
+												</th>
+												<th colspan="1">
+													<h4>Weight Assigned</h4>
+												</th>
+												<th colspan="1">
+													<h4>Total</h4>
+													<p>Score * Weight Assigned</p>
+												</th>
+												<!--  												<th colspan="1">
+													<h4>OPERATION</h4>
+													<p>hshsh shshsh</p>
+												</th>  -->
+											</tr>
+
+										</thead>
+										<tbody>
+											<tr id="Testt"
+												data-th-each="plan : ${submitedStaffObj}">
+												<td colspan="5" th:text="${plan.performanceobjective}"></td>
+												<td colspan="5" th:text="${plan.performanceindicators}"></td>
+												<td colspan="2" th:id="${plan.id}" th:text="${plan.midyear} + '%'"></td>
+												<td colspan="2" th:text="${plan.finalyear} + '%'">25%</td>
+												<td th:text="${plan.empactiontaken}"></td>
+												<td th:text="${plan.supactiontaken}"></td>
+												<td th:text="${plan.actual}"></td>
+												<td th:text="${plan.finalScore}"></td>
+												<td th:text="${plan.weightassigned}" th:class="${plan.id}"></td>
+												<td th:text="${plan.total}"></td>
+												<td th:text="${plan.userid}"  hidden="hidden" id="mystaffid"></td>
+												
+												
+												<!-- <input type="text" th:value="${plan.id}" /> -->
+												<td th:if="${isActionTaken == true}">
+													<a th:href="${plan.id}" class=" newscore actionTaken">
+														<span class="btn badge bg-danger">Idicate Action</span>
+													</a>
+												 </td>
+												
+											</tr>
+										</tbody>
+									</table>
+									<table class="table table-bordered">
+										<colgroup>
+											<col width="10%">
+											</col>
+											<col width="10%">
+											</col>
+											<col width="10%">
+											</col>
+											<col width="10%">
+											</col>
+											<col width="10%">
+											</col>
+											<col width="10%">
+											</col>
+											<col width="10%">
+											</col>
+											<col width="10%">
+											</col>
+											<col width="10%">
+											</col>
+											<!-- 											<col width="10%">
+											</col> -->
+										</colgroup>
+										<tr style="background-color: aliceblue; color: black;">
+											<td colspan="1"><span></span></td>
+
+											<td colspan="7" align="right"><h5>
+													<strong>Total weight per annum= (60) </strong>
+												</h5></td>
+											<td colspan="1" align="right"><span
+												id="grandTotalObjectiveAssignWeight" th:text="${planTotalScore}"><strong>0.00</strong></span></td>
+											<!-- 											<td colspan="1" align="right"><span
+												th:text="${grandTotScore}"><strong>2.90</strong></span></td> -->
+										</tr>
+									</table>
+								</td>
+							</tr>
+
+							<tr id="EvaluationSectionTwo">
+								<table class="table table-bordered">
+									<tbody>
+										<tr style="background-color: #000033; color: white;"
+											id="PerformancePlanSectionOne">
+											<td>
+												<h4>
+													<strong>SECTION TWO - GENERAL AND BEHAVIORAL
+														COMPETENCY ASSESSMENT.</strong><br />
+													<p>Key: Unsatisfactory =0, below Expectations =1,
+														Satisfactory = 2, Meets Expectations 3, Exceptional =4
+														Total Points = 40</p>
+												</h4>
+											</td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</tr>
+							
+
+
+
+							<div>
+								<table class="table table-striped">
+									<tr>
+										<th>No.</th>
+										<th>Items</th>
+										<th>Score</th>
+									</tr>
+									<tr>
+										<td>1</td>
+										<td>Application of appropriate technical knowledge and
+											procedures; Understanding facts and information related to
+											assignments</td>
+										<td th:if="${findstaffcompetency != null}"><span
+											th:switch="${findstaffcompetency.label1}"> <span
+												th:case="0">Unsatisfactory</span> <span th:case="1">Below
+													Expectations</span> <span th:case="2">Satisfactory</span> <span
+												th:case="3">Meets Expectations</span> <span th:case="4">Exceptional</span>
+										</span></td>
+										<td th:unless="${findstaffcompetency != null}"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>Has the ability to set objectives, establishing
+											priorities, arranging schedules, develops work plans, meet
+											deadlines, develop long and short-range plans</td>
+										<td th:if="${findstaffcompetency != null}"><span
+											th:switch="${findstaffcompetency.label2}"> <span
+												th:case="0">Unsatisfactory</span> <span th:case="1">Below
+													Expectations</span> <span th:case="2">Satisfactory</span> <span
+												th:case="3">Meets Expectations</span> <span th:case="4">Exceptional</span>
+										</span></td>
+										<td th:unless="${findstaffcompetency != null}"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>(Analytical abilities &amp; judgement) understanding
+											factors and developing sound, practical solutions,
+											recognizing a decision when necessary, asking for inputs and
+											providing feedback in a timely manner.s</td>
+										<td th:if="${findstaffcompetency != null}"><span
+											th:switch="${findstaffcompetency.label3}"> <span
+												th:case="0">Unsatisfactory</span> <span th:case="1">Below
+													Expectations</span> <span th:case="2">Satisfactory</span> <span
+												th:case="3">Meets Expectations</span> <span th:case="4">Exceptional</span>
+										</span></td>
+										<td th:unless="${findstaffcompetency != null}"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>Display of oral/ and or written communication skills
+											required by the job, ability to listen and understand
+											information, present information in a clear and concise
+											manner.</td>
+										<td th:if="${findstaffcompetency != null}"><span
+											th:switch="${findstaffcompetency.label4}"> <span
+												th:case="0">Unsatisfactory</span> <span th:case="1">Below
+													Expectations</span> <span th:case="2">Satisfactory</span> <span
+												th:case="3">Meets Expectations</span> <span th:case="4">Exceptional</span>
+										</span></td>
+										<td th:unless="${findstaffcompetency != null}"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>5</td>
+										<td>Accuracy, thoroughness, and efficiency of work
+											regardless volume, ability to meet standards of quality.</td>
+										<td th:if="${findstaffcompetency != null}"><span
+											th:switch="${findstaffcompetency.label5}"> <span
+												th:case="0">Unsatisfactory</span> <span th:case="1">Below
+													Expectations</span> <span th:case="2">Satisfactory</span> <span
+												th:case="3">Meets Expectations</span> <span th:case="4">Exceptional</span>
+										</span></td>
+										<td th:unless="${findstaffcompetency != null}"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>6</td>
+										<td>Accuracy, thoroughness and general effectiveness of
+											regularly produced work, may include consistency and speed of
+											overall work. Does the employee use time effectively?</td>
+										<td th:if="${findstaffcompetency != null}"><span
+											th:switch="${findstaffcompetency.label6}"> <span
+												th:case="0">Unsatisfactory</span> <span th:case="1">Below
+													Expectations</span> <span th:case="2">Satisfactory</span> <span
+												th:case="3">Meets Expectations</span> <span th:case="4">Exceptional</span>
+										</span></td>
+										<td th:unless="${findstaffcompetency != null}"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>7</td>
+										<td>Promotes team work and good working relationships
+											amongst supervisees. Seeks input and new ideas from all team
+											members roles and responsibilities, for me individually and
+											for our department and provides positive feedback.
+											Effectively delegates task to other members of the team.</td>
+										<td th:if="${findstaffcompetency != null}"><span
+											th:switch="${findstaffcompetency.label7}"> <span
+												th:case="0">Unsatisfactory</span> <span th:case="1">Below
+													Expectations</span> <span th:case="2">Satisfactory</span> <span
+												th:case="3">Meets Expectations</span> <span th:case="4">Exceptional</span>
+										</span></td>
+										<td th:unless="${findstaffcompetency != null}"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>8</td>
+										<td>Recognizes and addresses concerns in a timely manner,
+											is the supervisor effective at solving problems?</td>
+										<td th:if="${findstaffcompetency != null}"><span
+											th:switch="${findstaffcompetency.label8}"> <span
+												th:case="0">Unsatisfactory</span> <span th:case="1">Below
+													Expectations</span> <span th:case="2">Satisfactory</span> <span
+												th:case="3">Meets Expectations</span> <span th:case="4">Exceptional</span>
+										</span></td>
+										<td th:unless="${findstaffcompetency != null}"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>9</td>
+										<td>Encourages and supports my involvement in training
+											and development, Inspires growth and development in others</td>
+										<td th:if="${findstaffcompetency != null}"><span
+											th:switch="${findstaffcompetency.label9}"> <span
+												th:case="0">Unsatisfactory</span> <span th:case="1">Below
+													Expectations</span> <span th:case="2">Satisfactory</span> <span
+												th:case="3">Meets Expectations</span> <span th:case="4">Exceptional</span>
+										</span></td>
+										<td th:unless="${findstaffcompetency != null}"></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>10</td>
+										<td>Effectively deals with conflict, controls emotions
+											and behavior, even when faced with high-conflict or stressful
+											situations?</td>
+										<td th:if="${findstaffcompetency != null}"><span
+											th:switch="${findstaffcompetency.label10}"> <span
+												th:case="0">Unsatisfactory</span> <span th:case="1">Below
+													Expectations</span> <span th:case="2">Satisfactory</span> <span
+												th:case="3">Meets Expectations</span> <span th:case="4">Exceptional</span>
+										</span></td>
+										<td th:unless="${findstaffcompetency != null}"></td>
+										<td></td>
+									</tr>
+
+										<input type="hidden" th:value="${findstaffcompetency.id}" name="competencyId"></input>
+								</table>
+							</div>
+							<tr>
+
+
+
+								
+							</tr>
+							<br />
+							<br />
+							<br />
+					
+
+
+							<tr>
+								<table class="table table-bordered">
+									<tbody>
+										<tr align="center"
+											style="background-color: #000033; color: white;">
+											<td>
+												<h3>
+													<strong>SUMMARY OF APPRAISAL SCORES AND COMMENTS</strong>
+												</h3>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</tr>
+							<tr>
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th style="width: 20%;">
+												<h5 align="center">
+													<strong>Sections</strong>
+												</h5>
+											</th>
+											<th style="width: 10%;">
+												<h5 align="center">
+													<strong>Maximum Scores</strong>
+												</h5>
+											</th>
+											<th style="width: 30%;">
+												<h5 align="center">
+													<strong>Staff Final Score</strong>
+												</h5>
+											</th>
+										
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="width: 20%;" align="center"><span><strong>Performance
+														objectives</strong></span></td>
+											<td style="width: 10%;" align="center"><span>60.00</span>
+											</td>
+											<td style="width: 30%;" align="center"><span><input
+													id="summaryPerfObj" placeholder="0.00" readonly="readonly"
+													th:value="${planTotalScore}"
+													style="background: rgba(255, 255, 255, 0); color: #000; text-align: center; border: none;"></input></span></td>
+											<!-- <td rowspan="5" align="center"><br /> <br /> <br /> <br />
+												<p>
+													<strong> Performance objectives+competency
+														factors+managerial &amp; superisory competencies X 100/150
+													</strong>
+												</p></td> -->
+										</tr>
+										<tr>
+											<td style="width: 20%;" align="center"><span><strong>Competency
+														factors</strong></span></td>
+											<td style="width: 10%;" align="center"><span>40.00</span>
+											</td>
+											<td style="width: 30%;" align="center"><span><input
+													id="summaryCompFactor" placeholder="0.00"
+													th:value="${staffTotalCompetency}" readonly="readonly"
+													style="background: rgba(255, 255, 255, 0); color: #000; text-align: center; border: none;"></input></span></td>
+
+										</tr>
+										
+										 <tr>
+											<td colspan="2" align="center">
+												<h5>
+													<strong>Total Scores</strong>
+												</h5>
+											</td>
+											<td colspan="1" align="center">
+												<h5>
+													<strong><span style="color: red;" id="finalScore"><input
+															id="summaryTotalScore" placeholder="0.00"
+														
+															name="total_scores" readonly="readonly"
+															style="background: rgba(255, 255, 255, 0); color: red; text-align: center; border: none;"></input></span></strong>
+												</h5>
+											</td>
+											<!--<td colspan="1" align="center">
+												<p><strong>Testing 123...</strong></p>
+											</td>-->
+										</tr> 
+									</tbody>
+								</table>
+							</tr>
+							<tr>
+								<td colspan="4"></td>
+							</tr>
+							
+							<tr>
+								<td colspan="4">
+									<h5>
+										<strong><span class="text-danger">*</span>PLEASE COMMENT :</strong>
+									</h5> <span><textarea rowspan="4" type="text"  class="form-control"
+											id="staffcomment" name="staffComment" required="required"
+											placeholder="Please Comment here..."></textarea></span>
+								</td>
+								
+							</tr><br />
+							<tr>
+								<button type="button" class=" btn-sm btn-success" data-toggle="modal" data-target="#comments">View Comments</button>
+							</tr>
+
+							<tr>
+								<td colspan="4"><br /></td>
+							</tr>
+
+							
+
+							<div class="text-center" style="margin-bottom: 40px;">
+
+								<input type="submit" name="operation"
+									value="Return Evaluation" id="returnEvaluationPlan"
+									th:if="${evalautionReturnButton == true}"
+									class="btn btn-danger btn btn-lg loading" /> 
+								<input type="submit"
+									name="operation" value="Submit Evaluation"
+									id="submitEvaluationPlan"
+									th:if="${evaluationSubmitButton == true}" class="btn btn-lg loading"
+									style="background: #000033; color: #fff;" /> 
+								<input
+									type="submit" name="operation" value="Approve Evaluation"
+									id="submitEvaluationPlan"
+									th:if="${evalautionApproveButton == true}" class="btn btn-lg loading"
+									style="background: #000033; color: #fff;" />
+							</div>
+							<!-- </form> -->
+						</tbody>
+					</table>
+					<div id="loading"></div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+		
+
+		 <div class="modal fade" id="addScore" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabell" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">ADD Competency
+							Score</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form name="regForm" th:action="@{/saveStaffActionTaken}"
+						method="post">
+						<input th:value="${employee.employee_id}" name="employeeIdTransfered" type="hidden"></input> 
+						<!-- <input id="id" name="id" ></input> -->
+						<input id="staffid" type="hidden"   name="staffid" style="width: 350px"></input> 
+						<div class="modal-body">
+							
+							<div class="row">
+								
+								<div class="col-sm-12" >
+								<label>Employee Action Taken</label>
+									<input type="text" style="border:2px solid gray; height:50px;" class="form-control" id="empactionTaken" name="staffActionTaken" th:autofocus="autofocus"  />
+								</div>
+							</div>
+							
+							
+							
+							
+							<div class="row">
+								
+								
+								<div class="col-sm-4">
+									<!-- <label>Perfromance Objective Id</label> -->
+									<input type="hidden" class="form-control" id="objtiveId" name="myid" />
+								</div>
+								<div class="col-sm-4">
+									<!-- <label>evtar</label> -->
+									<input type="hidden" class="form-control" id="evtar" name="evtar" />
+								</div>
+								
+							</div>
+							
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" id="btnClose"
+								data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary" id="btnSubmit"
+								th:disabled="${performanceEvaluationSaved == true}"
+								style="background: #000033;">Add Score</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="comments">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+						<button type="button" class="close text-danger" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h2 class="modal-title" id="exampleModalLabel">Plan Evaluation Comments</h2>
+							
+						</div>
+						
+						<div class="modal-body">
+							<div class="card" data-th-each="showcomment : ${showcomments}" style="padding:10px; box-shadow:-1px 1px 1px -1px gray;">
+								<h4  th:text="${showcomment.first_name} + ' ' + ${showcomment.middle_name} + ' ' + ${showcomment.last_name}" class="text-primary"><b><i><span></span></i></b></h4>
+								<p th:text="${showcomment.staffComments}">The quick brown fox jump over the lazy dog just this morning</p>
+								<small th:text="${showcomment.dateUpdated}">10/17/2023 2:20:00</small>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<div hidden="hidden">
+			<a id="val2" th:href="@{/getObjQuarters}"
+				class="btn btn-warning btn-xs"></a>
+		</div>
+
+	</div>
+
+
+	<div th:replace="common/header :: footer"></div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+	
+	<script type="text/javascript">
+		$('document').ready(function(){
+			
+			
+			var plantotal = $('#summaryPerfObj').val(); 
+			var competencytotal = $('#summaryCompFactor ').val();
+			var summarytotal = parseInt(plantotal) + parseInt(competencytotal);
+			$('#summaryTotalScore').val(summarytotal);
+			
+			
+			var mystaffid = $('#mystaffid').text();
+			$('#staffid').val(mystaffid);
+			console.log(summarytotal);
+			
+			$('.newscore').on('click', function(e){
+				e.preventDefault();
+				
+				// getting the object id form the link
+				var myscore = $(this).attr("href");
+				//passing the object id to the form input field
+				$('#objtiveId').val(myscore);
+				
+				
+				//get the weight
+				var weightass = $('#'+myscore).text();
+				//remove the % sign
+				var newWeight = weightass.replace('%', '');
+				//pass it to the form
+				$('#evtar').val(newWeight);
+				
+				var planWeight = $('.'+myscore).text();
+				$('#planweight').val(planWeight);
+			})
+			
+		  $('#calculate').on('click', function(){
+			  var getActualScore = $('#actual').val(); 
+			  
+			  var targets = $('#actual').val()/$('#evtar').val();
+			  var score = targets.toFixed(1);
+			  
+			  var total = $('#planweight').val() * score;
+			  
+			  if(getActualScore > $('#evtar').val()){
+				  alert("PLEASE NOTE THAT SCORE CAN NOT BE GREATER THAN TARGET " + $('#evtar').val());
+				  $('#btnSubmit').prop("disabled", true);
+			  }else{
+				  $('#targets').val(score);  
+				  $('#total').val(total);
+			  }
+			  
+			
+		  });
+		})
+			
+	</script>
+	<!--  4444444444444444444444444444444444444444444444444444444 -->
+	<script>
+	$('document')
+	.ready(
+			function() {
+				$('.table .btn').on('click', function(event) 
+						{
+							event.preventDefault();
+							var href = $(this).attr('href');
+									$
+											.get(href, function(evaluationCompetency, status) 
+													{$("#competency_name").val(evaluationCompetency.id);
+														$("#competency_name").val(evaluationCompetency.competency_title);
+														$("#required_point").val(evaluationCompetency.required);
+														$("#assigned_weight").val(evaluationCompetency.assigned);
+													});
+
+									$('#addScore').modal();
+
+								});
+
+			});
+	</script>
+	<script>
+		$("#obj").on("change", function() {
+			$('#val2').click();
+		});
+	</script>
+
+	<!-- <script type="text/javascript">
+		$('document')
+				.ready(
+						function() {
+							$('.table .btn')
+									.on(
+											'click',
+											function(event) {
+
+												event.preventDefault();
+
+												var href = $(this).attr('href');
+												$
+														.get(
+																href,
+																function(
+																		evaluationCompetency,
+																		status) {
+
+																	$(
+																			"#competency_name")
+																			.val(
+																					evaluationCompetency.id);
+																	$(
+																			"#competency_name")
+																			.val(
+																					evaluationCompetency.competency_title);
+																	$(
+																			"#required_point")
+																			.val(
+																					evaluationCompetency.required);
+																	$(
+																			"#assigned_weight")
+																			.val(
+																					evaluationCompetency.assigned);
+
+																});
+
+												$('#addScore').modal();
+
+											});
+
+						});
+	</script> -->
+
+	<script>
+		$('#val2').on('click', function() {
+			console.log("Testtttttt");
+			/*<![CDATA[*/
+			var path = /*[[@{/}]]*/'getObjQuarters?objId=' + $('#obj').val();
+			/*]]>*/
+
+			$.get(path, function(performancePlan, status) {
+
+				$("#perfObj").val(performancePlan.performance_objective);
+				$("#perfind").val(performancePlan.performance_indicators);
+				$("#q1").val(performancePlan.quarter1);
+				$("#q2").val(performancePlan.quarter2);
+				$("#q3").val(performancePlan.quarter3);
+				$("#q4").val(performancePlan.quarter4);
+				$("#weightObj").val(performancePlan.weight_assigned);
+				$("#weightAssigned").val(performancePlan.weight_assigned);
+
+			});
+		});
+	</script>
+
+	<script>
+		/*<![CDATA[*/
+		$('document').ready(
+				function() {
+
+					$('#input18').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_score_tot = $('#sup_comp_tot');
+
+								$sup_comp_score_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								$supTotal18 = $('#supTotal18');
+								$supTotal19 = $('#supTotal19');
+								$supTotal20 = $('#supTotal20');
+								$supTotal21 = $('#supTotal21');
+								$supTotal22 = $('#supTotal22');
+								$grandTotal = $('#grandTotal');
+								$supTotal18.val(Math.round((Number($input18
+										.val()) * 10) * 100) / 100);
+								$grandTotal.val(Number($supTotal18.val())
+										+ Number($supTotal19.val())
+										+ Number($supTotal20.val())
+										+ Number($supTotal21.val())
+										+ Number($supTotal22.val()));
+								
+								/***************** Appraisal Summary *****************/
+								grandTotalObjectiveAssignWeight = document.getElementById("grandTotalObjectiveAssignWeight").innerText;
+								totActualProficiency = document.getElementById("totWeightAttained").innerText;
+								
+								$summaryPerfObj = $('#summaryPerfObj');
+								$summaryCompFactor = $('#summaryCompFactor');
+								$summaryMangSup = $('#summaryMangSup');
+								$finalAppraisalScore = $('#finalAppraisalScore');
+								$summaryTotalScore = $('#summaryTotalScore');
+								
+								$summaryPerfObj.val(Number(grandTotalObjectiveAssignWeight));
+								$summaryCompFactor.val(Number(totActualProficiency));
+								$summaryMangSup.val(Number($grandTotal.val()));
+								$finalAppraisalScore.val(Number($summaryPerfObj.val())
+										+ Number($summaryCompFactor.val())
+										+ Number($summaryMangSup.val()));
+								
+								$summaryTotalScore.val(Math.round((($finalAppraisalScore.val() * 100) /150)*100)/100);
+								                  
+
+							});
+
+					$('#input19').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_score_tot = $('#sup_comp_tot');
+
+								$sup_comp_score_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								$supTotal18 = $('#supTotal18');
+								$supTotal19 = $('#supTotal19');
+								$supTotal20 = $('#supTotal20');
+								$supTotal21 = $('#supTotal21');
+								$supTotal22 = $('#supTotal22');
+								$grandTotal = $('#grandTotal');
+								$supTotal19.val(Math.round((Number($input19
+										.val()) * 10) * 100) / 100);
+								$grandTotal.val(Number($supTotal18.val())
+										+ Number($supTotal19.val())
+										+ Number($supTotal20.val())
+										+ Number($supTotal21.val())
+										+ Number($supTotal22.val()));
+								
+								/***************** Appraisal Summary *****************/
+								grandTotalObjectiveAssignWeight = document.getElementById("grandTotalObjectiveAssignWeight").innerText;
+								totActualProficiency = document.getElementById("totWeightAttained").innerText;
+								
+								$summaryPerfObj = $('#summaryPerfObj');
+								$summaryCompFactor = $('#summaryCompFactor');
+								$summaryMangSup = $('#summaryMangSup');
+								$finalAppraisalScore = $('#finalAppraisalScore');
+								$summaryTotalScore = $('#summaryTotalScore');
+								
+								$summaryPerfObj.val(Number(grandTotalObjectiveAssignWeight));
+								$summaryCompFactor.val(Number(totActualProficiency));
+								$summaryMangSup.val(Number($grandTotal.val()));
+								$finalAppraisalScore.val(Number($summaryPerfObj.val())
+										+ Number($summaryCompFactor.val())
+										+ Number($summaryMangSup.val()));
+								
+								$summaryTotalScore.val(Math.round((($finalAppraisalScore.val() * 100) /150)*100)/100);
+							});
+
+					$('#input20').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_score_tot = $('#sup_comp_tot');
+
+								$sup_comp_score_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								$supTotal18 = $('#supTotal18');
+								$supTotal19 = $('#supTotal19');
+								$supTotal20 = $('#supTotal20');
+								$supTotal21 = $('#supTotal21');
+								$supTotal22 = $('#supTotal22');
+								$grandTotal = $('#grandTotal');
+								$supTotal20.val(Math.round((Number($input20
+										.val()) * 10) * 100) / 100);
+								$grandTotal.val(Number($supTotal18.val())
+										+ Number($supTotal19.val())
+										+ Number($supTotal20.val())
+										+ Number($supTotal21.val())
+										+ Number($supTotal22.val()));
+								
+								/***************** Appraisal Summary *****************/
+								grandTotalObjectiveAssignWeight = document.getElementById("grandTotalObjectiveAssignWeight").innerText;
+								totActualProficiency = document.getElementById("totWeightAttained").innerText;
+								
+								$summaryPerfObj = $('#summaryPerfObj');
+								$summaryCompFactor = $('#summaryCompFactor');
+								$summaryMangSup = $('#summaryMangSup');
+								$finalAppraisalScore = $('#finalAppraisalScore');
+								$summaryTotalScore = $('#summaryTotalScore');
+								
+								$summaryPerfObj.val(Number(grandTotalObjectiveAssignWeight));
+								$summaryCompFactor.val(Number(totActualProficiency));
+								$summaryMangSup.val(Number($grandTotal.val()));
+								$finalAppraisalScore.val(Number($summaryPerfObj.val())
+										+ Number($summaryCompFactor.val())
+										+ Number($summaryMangSup.val()));
+								
+								$summaryTotalScore.val(Math.round((($finalAppraisalScore.val() * 100) /150)*100)/100);
+							});
+
+					$('#input21').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_score_tot = $('#sup_comp_tot');
+
+								$sup_comp_score_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								$supTotal18 = $('#supTotal18');
+								$supTotal19 = $('#supTotal19');
+								$supTotal20 = $('#supTotal20');
+								$supTotal21 = $('#supTotal21');
+								$supTotal22 = $('#supTotal22');
+								$grandTotal = $('#grandTotal');
+								$supTotal21.val(Math.round((Number($input21
+										.val()) * 10) * 100) / 100);
+								$grandTotal.val(Number($supTotal18.val())
+										+ Number($supTotal19.val())
+										+ Number($supTotal20.val())
+										+ Number($supTotal21.val())
+										+ Number($supTotal22.val()));
+								
+								/***************** Appraisal Summary *****************/
+								grandTotalObjectiveAssignWeight = document.getElementById("grandTotalObjectiveAssignWeight").innerText;
+								totActualProficiency = document.getElementById("totWeightAttained").innerText;
+								
+								$summaryPerfObj = $('#summaryPerfObj');
+								$summaryCompFactor = $('#summaryCompFactor');
+								$summaryMangSup = $('#summaryMangSup');
+								$finalAppraisalScore = $('#finalAppraisalScore');
+								$summaryTotalScore = $('#summaryTotalScore');
+								
+								$summaryPerfObj.val(Number(grandTotalObjectiveAssignWeight));
+								$summaryCompFactor.val(Number(totActualProficiency));
+								$summaryMangSup.val(Number($grandTotal.val()));
+								$finalAppraisalScore.val(Number($summaryPerfObj.val())
+										+ Number($summaryCompFactor.val())
+										+ Number($summaryMangSup.val()));
+								
+								$summaryTotalScore.val(Math.round((($finalAppraisalScore.val() * 100) /150)*100)/100);
+							});
+					$('#input22').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_score_tot = $('#sup_comp_tot');
+
+								$sup_comp_score_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+
+								$supTotal18 = $('#supTotal18');
+								$supTotal19 = $('#supTotal19');
+								$supTotal20 = $('#supTotal20');
+								$supTotal21 = $('#supTotal21');
+								$supTotal22 = $('#supTotal22');
+								$grandTotal = $('#grandTotal');
+								$supTotal22.val(Math.round((Number($input22
+										.val()) * 10) * 100) / 100);
+								$grandTotal.val(Number($supTotal18.val())
+										+ Number($supTotal19.val())
+										+ Number($supTotal20.val())
+										+ Number($supTotal21.val())
+										+ Number($supTotal22.val()));
+								
+								/***************** Appraisal Summary *****************/
+								grandTotalObjectiveAssignWeight = document.getElementById("grandTotalObjectiveAssignWeight").innerText;
+								totActualProficiency = document.getElementById("totWeightAttained").innerText;
+								
+								$summaryPerfObj = $('#summaryPerfObj');
+								$summaryCompFactor = $('#summaryCompFactor');
+								$summaryMangSup = $('#summaryMangSup');
+								$finalAppraisalScore = $('#finalAppraisalScore');
+								$summaryTotalScore = $('#summaryTotalScore');
+								
+								$summaryPerfObj.val(Number(grandTotalObjectiveAssignWeight));
+								$summaryCompFactor.val(Number(totActualProficiency));
+								$summaryMangSup.val(Number($grandTotal.val()));
+								$finalAppraisalScore.val(Number($summaryPerfObj.val())
+										+ Number($summaryCompFactor.val())
+										+ Number($summaryMangSup.val()));
+								
+								$summaryTotalScore.val(Math.round((($finalAppraisalScore.val() * 100) /150)*100)/100);
+							});
+				});
+		/*]]>*/
+	</script>
+	<!-- <script type="text/javascript">
+		$('document').ready(function() {
+
+			$('#actual_score').on('input keyup', function() {
+
+				$actualVal = $('#actual_score');
+				$requiredVal = $('#required_point');
+
+				//If condition Here!
+				// Note to enable button if true
+				console.log($actualVal.val());
+
+				if (Number($actualVal.val()) > Number($requiredVal.val())) {
+
+					btnSubmit.disabled = true;
+				} else {
+
+					btnSubmit.disabled = false;
+				}
+
+			});
+		});
+	</script> -->
+
+	<script>
+		date = new Date();
+		year = date.getFullYear();
+		month = date.getMonth() + 1;
+		day = date.getDate();
+		document.getElementById("current_date").innerHTML = month + "/" + day
+				+ "/" + year;
+	</script>
+
+
+</body>
+
+</html>

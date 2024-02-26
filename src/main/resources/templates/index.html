@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+
+
+
+
+
+
+
+	<div class="container-fluid">
+
+		<!-- modal or pup-up to find staff -->
+		<div class="modal fade" id="findStaff">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header"
+						style="background-color: #000033; color: white;">
+						<button class="close" data-dismiss="modal">
+							<span> &times; </span>
+						</button>
+						<h3>Find Staff</h3>
+					</div>
+					<div class="modal-body">
+						<div class="card-body">
+							<form>
+								<label>Staff ID</label>
+								<div class="form-group">
+									<input type="number" class="form-control"></input>
+								</div>
+								<input type="submit" value="Find" class="btn btn-lg btn-success"></input>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal or pup-up to find staff  end -->
+
+
+		<div class="row">
+			<div class="col-sm-9">
+				<div class="row">
+				
+				<div class="col-sm-10 col-sm-offset-1">
+						<h3 class="text-center"
+							style="background-color: #000033; padding: 20px; color: white;">
+							STAFF'S SUPERVISOR</h3>
+						<div>
+							<table  class="table table-striped w-100"
+								style="border: 2px solid gray;">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>NAME</th>
+										<th>EMAIL</th>
+										<th>ACTION</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td th:text="${supervisor.employee_id}"></td>
+										<td th:text="${supervisor.first_name}+' '+${supervisor.last_name}"></td>
+										<td th:text="${supervisor.email}"></td>
+										<td> <span><a
+												th:href="@{/supervisor_evaluation(id=(${supervisor.employee_id}))}">Performance
+													Evaluation</a></span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				
+				
+					<div  th:if="${employeeList != null}" class="col-sm-10 col-sm-offset-1">
+						<h3 class="text-center"
+							style="background-color: #000033; padding: 20px; color: white;">
+							STAFF LIST</h3>
+						<div>
+							<table  class="table table-striped w-100"
+								style="border: 2px solid gray;">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>NAME</th>
+										<th>EMAIL</th>
+										<th>ACTION</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr data-th-each="emp: ${employeeList}">
+										<td th:text="${emp.employee_id}"></td>
+										<td th:text="${emp.first_name}+' '+${emp.last_name}"></td>
+										<td th:text="${emp.email}"></td>
+										<td><span><a
+												th:href="@{/plan_performance_staff(id=(${emp.employee_id}))}">Performance
+													Plan</a></span>&nbsp; <span>/</span>&nbsp; <span><a
+												th:href="@{/evaluation(id=(${emp.employee_id}))}">Performance
+													Evaluation</a></span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="row" th:if="${reviewList}">
+						<div class="col-sm-10 col-sm-offset-1">
+							<h3 class="text-center"
+								style="background-color: #000033; padding: 20px; color: white;">
+								STAFF REVIEW LIST</h3>
+							<div>
+								<table class="table table-striped w-100"
+									style="border: 2px solid gray;">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>NAME</th>
+											<th>EMAIL</th>
+											<th>ACTION</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr data-th-each="emp: ${reviewEmployeeList}">
+											<td th:text="${emp.employee_id}"></td>
+											<td th:text="${emp.first_name}+' '+${emp.last_name}"></td>
+											<td th:text="${emp.email}"></td>
+											<td><span><a
+													th:href="@{/review_plan_performance_staff(id=(${emp.employee_id}))}">Review
+														Performance Plan</a></span>&nbsp; <span>/</span>&nbsp; <span><a
+													th:href="@{/review_evaluation_staff(id=(${emp.employee_id}))}">Review
+														Performance Evaluation</a></span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="row">
+					<div class="col-sm-11 ">
+						<h3 class="card-header text-center"
+							style="background-color: #000033; color: white; padding: 20px;">Processes</h3>
+						<ul class="list-group list-group-flush"
+							style="border: 1px solid gray;">
+							<li class="list-group-item" style="margin-bottom: 10px;">
+								Ensure Staff's information is captured in the "Staff
+								Information" section.</li>
+							<li class="list-group-item" style="margin-bottom: 10px;">
+								Each Staff is to set specific, measurable, achievable, realistic
+								and time bound objectives. (Total Weight Per Annum is 60)</li>
+							<li class="list-group-item" style="margin-bottom: 10px;">
+								Identify the indicators.</li>
+							<li class="list-group-item" style="margin-bottom: 10px;">
+								Identify the required competency.(Total Weight Per Annum is 40)</li>
+							<li class="list-group-item" style="margin-bottom: 20px;">
+								submit to the HRD for processing and filing.</li>
+							<li class="list-group-item"><i> SCORE Tabulation: Full
+									Scores shall be given only for tasks that were planned and
+									subsequently fully executed in the stated quarter. Tasks
+									completed after the planned quarter shall be scored 25% less
+									for each quarter defferred or not executed, except in cases of
+									constraints evidenced by verifiers. </i></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!--  	<div class="container-fluid">
+		<div class="row">
+			<div class=" d-flex justify-content-between">
+					<h4>Dominic Bonney</h4>				
+					<button class="btn btn-info" style="float:right;"  data-backdrop="static" data-toggle="modal" data-target="#findStaff">Find Staff</button>
+			</div>
+		</div>
+		
+		modal or pup-up to find staff 
+		<div class="modal" id="findStaff">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content" >
+					<div class="modal-header" style="background-color:#000033; color:white;">
+						<button class="close" data-dismiss="modal">
+		                   <span> &times; </span>
+		                </button>
+						<h3>Find Staff</h3>
+					</div>
+					<div class="modal-body">
+						<div class="card-body">
+							<form>
+								<label>Staff ID</label>
+								<div class="form-group">
+									<input type="number" class="form-control"></input>
+								</div>
+								<input type="submit" value="Find" class="btn btn-lg btn-success"></input>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-8" style="margin-left:15px;">
+				<div class="card">
+					<div class="card-header">
+						<h2 class="text-center">STAFF LIST</h2>
+					</div>
+					
+					<div class="card-body">
+						<table class="table table-striped w-100">
+							<tr>
+								<th>ID</th>
+								<th>NAME</th>
+								<th>POSITION</th>
+								<th>ACTION</th>
+							</tr>
+							<tr>
+								<td>01</td>
+								<td>Dominic Bonney</td>
+								<td>Acting Manager BSDU</td>
+								<td><a th:href="@{/appraise}">appraise</a></td>
+							</tr>
+							<tr>
+								<td>02</td>
+								<td>Dominic Bonney</td>
+								<td>Acting Manager BSDU</td>
+								<td><a href="#">appraise</a></td>
+							</tr>
+							<tr>
+								<td>03</td>
+								<td>Dominic Bonney</td>
+								<td>Acting Manager BSDU</td>
+								<td><a href="#">appraise</a></td>
+							</tr>
+							<tr>
+								<td>04</td>
+								<td>Dominic Bonney</td>
+								<td>Acting Manager BSDU</td>
+								<td><a href="#">appraise</a></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				
+				<div class="card-body" style="margin-top:50px; background-color:#f1f1f1;">
+					<div style="padding:18px;">
+						<p><i>Total Staff</i> : <b>100</b></p>
+						<p><i>Staff Completed</i> : <b>50</b></p>
+						<p><i>Percentage</i> : <b>50%</b></p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-3 " style="background-color:#f1f1f1; height:500px;">
+				<div class="card">
+					<h3 class="card-header">Processes</h3>
+					<ul class="card-body">
+						<li> This is just a basic intruction about the application</li>
+						<li> This is just a basic intruction about the application</li>
+						<li> This is just a basic intruction about the application</li>
+						<li> This is just a basic intruction about the application</li>
+						<li> This is just a basic intruction about the application</li>
+						<li> This is just a basic intruction about the application</li>
+						<li> This is just a basic intruction about the application</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+
+
+	<!-- Sidebar -->
+
+
+	<!-- Page Content -->
+
+
+
+
+	<div th:replace="common/header :: footer"></div>
+
+
+
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+
+
+	<script type="text/javascript">
+		$('document').ready(function() {
+			$('.table .btn').on('click', function(event) {
+
+				event.preventDefault();
+
+				var href = $(this).attr('href');
+				$.get(href, function(planCompetency, status) {
+
+					$("#competency_name").val(planCompetency.id);
+					$("#competency_name").val(planCompetency.competency_title);
+					$("#required_point").val(planCompetency.required_point);
+					/* 			console.log(lookupCompetency.competency_name); */
+					/* 			$("#userName").val(user.username);
+					 $("#email").val(user.email); */
+
+				});
+
+				$('#addScore').modal();
+
+			});
+
+		});
+	</script>
+
+	<script>
+		/*<![CDATA[*/
+		$('document').ready(
+				function() {
+
+					$('#input18').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_tot = $('#sup_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+							});
+
+					$('#input19').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_tot = $('#sup_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+							});
+
+					$('#input20').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_tot = $('#sup_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+							});
+
+					$('#input21').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_tot = $('#sup_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+							});
+					$('#input22').on(
+							'input',
+							function() {
+								$input18 = $('#input18');
+								$input19 = $('#input19');
+								$input20 = $('#input20');
+								$input21 = $('#input21');
+								$input22 = $('#input22');
+								$sup_comp_tot = $('#sup_comp_tot');
+
+								$sup_comp_tot.val(Number($input18.val())
+										+ Number($input19.val())
+										+ Number($input20.val())
+										+ Number($input21.val())
+										+ Number($input22.val()));
+							});
+				});
+		/*]]>*/
+	</script>
+
+</body>
+
+</html>

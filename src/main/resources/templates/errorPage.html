@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+<style></style>
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+
+	<div class="col-md-12" Style="margin-bottom: 20px;">
+		<div class="content">
+			<div class="container-fluid">
+				<div class="container" align="center">
+
+					<ul class="nav nav-tabs">
+						<a th:href="@{/}"><i class="fa fa-long-arrow-left"
+							aria-hidden="true"></i>Go back</a>
+					</ul>
+
+					<div class="tab-content">
+						<br />
+
+						<div class="alert alert-danger">
+							<strong>OOPS ERROR!!!</strong> Invalid Login Details Provided. Kindly provide your correct LRA windows login credential. <br />
+							<br />
+
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="common/header :: footer"></div>
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+
+</html>

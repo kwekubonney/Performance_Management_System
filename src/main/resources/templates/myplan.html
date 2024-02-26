@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/header :: navbar"></div>
+
+ 	<div class="container-fluid">
+ 		<div class="row" style="margin-bottom:20px;">
+ 		<div>
+ 			<a th:if="${planningStatus != true}" th:href="@{/plan_performances(id=(${employee.employee_id}))}" style="margin-left:25px; margin-bottom:10px;" title="New Plan">		
+ 				<i class="fa fa-2x fa-book fa-fw" ></i>
+ 			</a>
+ 			
+ 		</div>
+ 			<div class="col-sm-10 col-sm-offset-1 ">
+ 				<h4 th:if="${planningStatus}" class="text-danger"><i>Planning Period is closed please contact HR</i></h4>
+ 			</div>
+ 			<div class="col-sm-10 col-sm-offset-1 " style="max-height:600px; overflow:auto; box-shadow:-1px 2px 2px 3px gray;">
+ 				<h3 style="background-color:#000033; padding:10px; color:white;"><span class="text-center">MY PERFORMANCE PLAN</span></h3>
+ 				<table class="table table-striped w-100">
+ 					<tr>
+ 						<th>Peformance Plan Period</th>
+ 						<th>Status</th>
+ 						<th>Action</th>
+ 					</tr>
+ 					<tr data-th-each="plan : ${staffPlanList}">
+ 						<td th:text="${plan.performace_Plan_Period}"></td>
+ 						<td th:if="${plan.level} == 1" th:text="Submit"></td>
+ 						<td th:if="${plan.level} == 2" th:text="Approve"></td>
+ 						<td th:if="${plan.level} == 3" th:text="Complete"></td>
+ 						<!-- <td><a class="btn btn-primary"  th:href="@{/plan_performance(period=${plan.performace_Plan_Period})}"><span th:if="${plan.status}  == 'Submitted'" style="color:red;">Open</span><span th:if="${plan.status}  != 'Submitted'" style="color:#000033;">Close</span> </a></td> -->
+ 					    <td><a class="btn btn-primary"  th:href="@{/staffplaned(id=(${plan.id}))}">View</a></td>
+ 					</tr>
+ 				</table>
+ 			</div>
+ 			<!-- <div class="col-sm-1 ">
+ 				<center>
+ 					<a th:href="@{/plan_performance}" class="btn btn-sm btn-primary">Open Current Performance Plan</a>
+ 				</center> 
+ 			</div> -->
+ 		</div>
+ 	</div>
+
+</body>
+
+</html>

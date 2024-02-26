@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/adminHead :: navbar"></div>
+	
+	<div class="row">
+		<div class="col-sm-7 col-sm-offset-1">
+			<table class="table table-striped">
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Performance Period</th>
+					<th>Plan Year</th>
+					<th>Status</th>
+					<th>Action</th>
+				</tr>
+				<tr data-th-each="allperiods : ${allperiod}">
+					<td th:if="${allperiods.id == 1}" th:text="Evaluation"></td>
+					<td th:if="${allperiods.id == 2}" th:text="Evaluation"></td>
+					<td th:if="${allperiods.id == 3}" th:text="Planning"></td>
+					
+					<td th:text="${allperiods.description}"></td>
+					<td th:text="${allperiods.periods}"></td>
+					<td th:text="${allperiods.planYear}"></td>
+					<td style="color:blue; " th:text="${allperiods.status}"></td>
+					<td>
+						<a class="btn btn-success" th:if="${allperiods.status == 'open'}" th:text="close" th:href="@{/updatePlanPeriod(id=${allperiods.id})}">Close</a>
+						<a class="btn btn-danger" th:if="${allperiods.status == 'close'}" th:text="open" th:href="@{/updatePlanPeriod(id=${allperiods.id})}">Open</a>
+					</td>
+				</tr>
+				
+			</table>
+		</div>
+		<div class="col-sm-2 col-sm-offset-1">
+			<div class="card-body">
+				<form th:action="@{/planyear}" method="post">
+					<label>Please state the Year</label>
+					<input type="number" class="form-control" required="required" placeholder="EX : 1990" name="planyear" />
+					<br />
+					<input type="submit" class="btn btn-success loading" value="Save Change" />
+				<div id="loading"></div>
+				</form>
+			</div>
+		</div>
+	
+	</div>
+	
+	<div th:replace="common/adminHead :: footer"></div>
+	<div th:replace="common/adminHead :: body-bottom-scripts"></div>
+				
+
+</body>
+
+</html>

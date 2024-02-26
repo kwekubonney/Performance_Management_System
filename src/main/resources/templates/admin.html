@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title></title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<link rel="icon" href="/image/apple-touch-icon.png" />
+</head>
+
+<body>
+	<div th:replace="common/adminHead :: navbar"></div>
+	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3">
+				<div>
+					<a class="btn btn-primary" th:href="@{/home}"  style="display:block; width:100%; margin:5px; padding:15px;">Dashboard</a>
+					<a class="btn btn-primary" th:href="@{/home}"  style="display:block; width:100%; margin:5px; padding:15px;">Reporting</a>
+					<a class="btn btn-primary" th:href="@{/adduserform}"  style="display:block; width:100%; margin:5px; padding:15px;">Configuration</a>
+					<a class="btn btn-primary" th:href="@{/home}"  style="display:block; width:100%; margin:5px; padding:15px;">Password Reset</a>
+				</div>
+			</div>
+			<div class="col-sm-9">
+			<div class="row" style="background:#f2f2f2; padding-top:20px; padding-bottom:20px;">
+				<div class="col-sm-3">
+					<div class="m1 bg-danger" style="padding:15px; border:1px solid black;">
+						<p>Total Staff</p>
+						<center><h1 class="p2">1760</h1></center>
+						<div><i class="fa-solid fa-people-roof"></i></div>
+					</div>
+				</div>
+				
+				<div class="col-sm-3">
+					<div class="m1 bg-warning" style="padding:15px; border:1px solid black;">
+						<p>Total Staff</p>
+						<center><h1 class="p2">170</h1></center>
+						<div><i class="fa-solid fa-people-roof"></i></div>
+					</div>
+				</div>
+				
+				<div class="col-sm-3">
+					<div class="m1 bg-primary" style="padding:15px; border:1px solid black;">
+						<p>Total Staff</p>
+						<center><h1 class="p2">160</h1></center>
+						<div><i class="fa-solid fa-people-roof"></i></div>
+					</div>
+				</div>
+				
+				<div class="col-sm-3">
+					<div class="m1 bg-success" style="padding:15px; border:1px solid black;">
+						<p>Total Staff</p>
+						<center><h1 class="p2">60</h1></center>
+						<div><i class="fa-solid fa-people-roof"></i></div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
